@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3963fb8a.css",
+    "main.js": "/static/js/main.e43dc4c6.js",
+    "static/media/yatay-labalsat.png": "/static/media/yatay-labalsat.ae605983e5d3587690e9.png",
+    "static/media/pronitron_about.jpg": "/static/media/pronitron_about.a93f5bae85511cfad3a7.jpg",
+    "static/media/sell_banner.jpg": "/static/media/sell_banner.ecd0cfde1d42b7aaf6f8.jpg",
+    "static/media/buy_banner.jpg": "/static/media/buy_banner.4c899ee66caaf005b251.jpg",
+    "static/media/service-banner.jpg": "/static/media/service-banner.94f855aa4e6acb9eb91f.jpg",
+    "static/media/Picture9.jpg": "/static/media/Picture9.e74d8e12d4bc39b48f7c.jpg",
+    "static/media/Picture2.png": "/static/media/Picture2.92c3aee945eae7a27021.png",
+    "static/media/Picture5.jpg": "/static/media/Picture5.4726e4ff63a02ee44b14.jpg",
+    "static/media/Picture7.jpg": "/static/media/Picture7.7b152390e15493dd9e54.jpg",
+    "static/media/Picture4.jpg": "/static/media/Picture4.2e0919539f6b4e358214.jpg",
+    "static/media/pronitron_logo.png": "/static/media/pronitron_logo.f25b3a1ed590d3cce4bd.png",
+    "static/media/Picture1.png": "/static/media/Picture1.cc51d663b850a9b62b43.png",
+    "static/media/no-image.png": "/static/media/no-image.70ac66a44a9b3620e193.png",
+    "static/media/uniphos.png": "/static/media/uniphos.a7e897b3ee3e3f918305.png",
+    "static/media/Picture3.jpg": "/static/media/Picture3.22e9890a04d538677b96.jpg",
+    "static/media/Picture8.jpg": "/static/media/Picture8.53ea95684cda88f28290.jpg",
+    "static/media/menu.svg": "/static/media/menu.0fd9209b0e37744ccd2a6bbe7be97bd1.svg",
+    "static/media/cart.svg": "/static/media/cart.abfdf752dc482f1a9627d3f76562131d.svg",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/index.html",
+    "static/media/compare.svg": "/static/media/compare.1c839d87cb27f1e45f1a3bc4a9e300ea.svg",
+    "static/media/view.svg": "/static/media/view.656dca615fdc5fb084c5199c18eeb24a.svg",
+    "static/media/wish.svg": "/static/media/wish.417da1a5c71c1c516af8c35a335efa66.svg",
+    "static/media/prodcompare.svg": "/static/media/prodcompare.2bbfd340c94177fd1223af04956c03dc.svg",
+    "static/media/add-cart.svg": "/static/media/add-cart.07089cca7ace32a4716dc122b1b11a68.svg",
+    "static/media/wishlist.svg": "/static/media/wishlist.e2b76316c68ed8ae4128cca85f622430.svg",
+    "static/media/wish-black.svg": "/static/media/wish-black.0028fb86b25f703a107bcd5c13d2acd9.svg",
+    "static/media/user.svg": "/static/media/user.cd86e0566bbf017c8167249084d368e3.svg",
+    "main.3963fb8a.css.map": "/static/css/main.3963fb8a.css.map",
+    "main.e43dc4c6.js.map": "/static/js/main.e43dc4c6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3963fb8a.css",
+    "static/js/main.e43dc4c6.js"
+  ]
+}
