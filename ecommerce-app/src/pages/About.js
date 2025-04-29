@@ -13,7 +13,7 @@ const About = () => {
 
   return (
     <>
-      <Meta title={"About Us"} />
+      <Meta title={t("About Us")}/>
       <BreadCrumb title="About Us" />
       
       <Container class1="about-wrapper py-5 home-wrapper-2">
@@ -37,7 +37,7 @@ const About = () => {
               <div className="section mb-5">
                 <h2 className="section-heading">{t("Our Vision")}</h2>
                 <p className="section-text">
-                  {t("To be the leading provider of innovative analytical solutions in Turkey and surrounding regions, delivering cutting-edge technology and exceptional service to our customers.")}
+                  {t("vision text is this yay")}
                 </p>
               </div>
 
@@ -45,7 +45,7 @@ const About = () => {
               <div className="section mb-5">
                 <h2 className="section-heading">{t("Our Mission")}</h2>
                 <p className="section-text">
-                  {t("To empower laboratories and industries with state-of-the-art analytical instruments and comprehensive support, enabling them to achieve accurate results and advance their research and development capabilities.")}
+                  {t("mission text is this yay")}
                 </p>
               </div>
 
@@ -54,10 +54,10 @@ const About = () => {
                 <h2 className="section-heading">{t("Company Overview")}</h2>
                 <div className="overview-content">
                   <p className="section-text mb-4">
-                    {t("Pronitron, established in Istanbul, has been a trusted name in analytical instrumentation for over two decades. We specialize in providing high-quality analytical solutions, including gas chromatography systems, thermal desorption units, and various laboratory consumables.")}
-                  </p>
+                      {t("overview text is this yay")}
+                    </p>
                   <p className="section-text">
-                    {t("Our partnership with leading global manufacturers allows us to offer cutting-edge technology while maintaining local expertise and support. We pride ourselves on delivering not just products, but complete solutions tailored to our customers' needs.")}
+                    {t("overview text 2 is this yay")}
                   </p>
                 </div>
               </div>

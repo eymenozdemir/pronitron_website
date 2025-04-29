@@ -35,28 +35,15 @@ Coded by www.creative-tim.com
   10. The `component` key is used to store the component of its route.
 */
 
-// Material Dashboard 2 React layouts
-import Dashboard from "layouts/dashboard";
 // import Dashboard from "./pages/Dashboard";
-import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
-import { RiCouponLine, RiDashboard2Line } from "react-icons/ri";
-import { PrivateRoutes } from "./components/PrivateRoutes";
+import { RiDashboard2Line } from "react-icons/ri";
+import { PrivateRoutes } from "./components/PrivateRoutes"; 
 
 import {
-  AiOutlineDashboard,
-  AiOutlineShoppingCart,
   AiOutlineUser,
-  AiOutlineBgColors,
 } from "react-icons/ai";
-import { FaClipboardList, FaShieldAlt, FaBox, FaBoxes, FaAlgolia } from "react-icons/fa";
-import { MdAssignmentAdd, MdPersonAddAlt1 } from "react-icons/md";
-
+import { FaClipboardList, FaBox, FaRegFlag, FaRegNewspaper } from "react-icons/fa";
+import { MdOutlineHomeRepairService, MdMenu } from "react-icons/md";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -73,117 +60,101 @@ const routes = (stockState) => {
     },
     {
       type: "collapse",
-      key: "orders",
-      route: "orders",
+      key: "users",
+      route: "users",
       icon: <FaClipboardList className="fs-4" />,
-      name: "Status of P.Orders",
+      name: "User List",
     },
     {
       type: "collapse",
-      key: "add-order",
-      route: "add-order",
-      icon: <AiOutlineShoppingCart className="fs-4" />,
-      name: "Purchase Order",
-    },
-    {
-      type: "collapse",
-      key: "vendors",
-      route: "vendors",
+      key: "add-user",
+      route: "add-user",
       icon: <AiOutlineUser className="fs-4" />,
-      name: "Vendors",
+      name: "Add User",
     },
     {
       type: "collapse",
-      key: "sales",
-      route: "sales",
+      key: "products",
+      route: "products",
       icon: <FaClipboardList className="fs-4" />,
-      name: "Sales",
+      name: "Product List",
     },
     {
       type: "collapse",
-      key: "list-customer",
-      route: "list-customer",
-      icon: <AiOutlineUser className="fs-4" />,
-      name: "Customers",
-    },
-    {
-      type: "dropdown",
-      key: "admin-actions",
-      icon: <FaShieldAlt className="fs-4" />,
-      name: "Admin Actions",
-      collapse: [
-        {
-          type: "collapse",
-          key: "list-product",
-          route: "list-product",
-          icon: <FaClipboardList className="fs-4" />,
-          name: "Product List",
-        },
-        {
-          type: "collapse",
-          key: "product",
-          route: "product",
-          icon: <MdAssignmentAdd className="fs-4" />,
-          name: "Add Product",
-        },
-        {
-          type: "collapse",
-          key: "list-employee",
-          route: "list-employee",
-          icon: <AiOutlineUser className="fs-4" />,
-          name: "Employee List",
-        },
-        {
-          type: "collapse",
-          key: "add-user",
-          route: "add-user",
-          icon: <MdPersonAddAlt1 className="fs-4" />,
-          name: "Add User ",
-        },
-        
-      ],
-    },
-    {
-      type: "dropdown",
-      key: "inventory",
+      key: "add-product",
+      route: "add-product",
       icon: <FaBox className="fs-4" />,
-      name: "Inventory",
-      collapse: [
-        {
-          type: "collapse",
-          key: "savannah",
-          route: "savannah",
-          icon: <FaBox className="fs-4" />,
-          name: "Savannah",
-        },
-        {
-          type: "collapse",
-          key: "nashville",
-          route: "nashville",
-          icon: <FaBox className="fs-4" />,
-          name: "Nashville",
-        },
-        {
-          type: "collapse",
-          key: "atlanta",
-          route: "atlanta",
-          icon: <FaBox className="fs-4" />,
-          name: "Atlanta",
-        },
-      ],
+      name: "Add Product",
     },
     {
       type: "collapse",
-      key: "stock-alert",
-      route: "stock-alert",
-      icon: <FaAlgolia className="fs-4" />,
-      // name: <div className="justify-content-between align-items-center d-flex"> Stock Alert  <span className="bg-danger badge rounded-circle p-2 mb-2" style={{ fontSize: "14px" }}>{2}</span> </div>,
-      name: <div className="justify-content-between align-items-center d-flex"> Stock Alert
-        {stockState.length > 0 && <div className="bg-danger p-2 d-flex justify-content-center align-items-center" style={{
-          fontSize: "14px", borderRadius: "25%",
-          width: "28px",
-          height: "28px"
-        }}>{stockState.length}</div>} </div>,
+      key: "refurbisheds",
+      route: "refurbisheds",
+      icon: <FaClipboardList className="fs-4" />,
+      name: "Refurbished List",
+    },
+    {
+      type: "collapse",
+      key: "add-refurbished",
+      route: "add-refurbished",
+      icon: <FaBox className="fs-4" />,
+      name: "Add Refurbished",
+    },
+    {
+      type: "collapse",
+      key: "banner",
+      route: "banner",
+      icon: <FaClipboardList className="fs-4" />,
+      name: "Banner List",
+    },
+    {
+      type: "collapse",
+      key: "add-banner",
+      route: "add-banner",
+      icon: <FaRegFlag className="fs-4" />,
+      name: "Add Banner",
+    },
+    {
+      type: "collapse",
+      key: "news",
+      route: "news",
+      icon: <FaClipboardList className="fs-4" />,
+      name: "News List",
+    },
+    {
+      type: "collapse",
+      key: "add-news",
+      route: "add-news",
+      icon: <FaRegNewspaper className="fs-4" />,
+      name: "Add News",
+    },
+    {
+      type: "collapse",
+      key: "solutions",
+      route: "solutions",
+      icon: <FaClipboardList className="fs-4" />,
+      name: "Solutions List",
+    },
+    {
+      type: "collapse",
+      key: "add-solutions",
+      route: "add-solutions",
+      icon: <MdOutlineHomeRepairService className="fs-4" />,
+      name: "Add Solutions",
+    },
+    {
+      type: "collapse",
+      key: "categories",
+      route: "categories",
+      icon: <FaClipboardList className="fs-4" />,
+      name: "Categories List",
+    },
+    {
+      type: "collapse",
+      key: "add-categories",
+      route: "add-categories",
+      icon: <MdMenu className="fs-4" />,
+      name: "Add Categories",
     },
   ];
 }

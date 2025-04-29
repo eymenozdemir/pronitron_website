@@ -1,0 +1,40 @@
+.dropzone {
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.dropzone:hover {
+    border-color: #232f3e;
+    background: #f1f3f4;
+}
+
+.dropzone.active {
+    border-color: #232f3e;
+    background: #e9ecef;
+}
+
+.dropzone p {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.dropzone .text-muted {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.dropzone span {
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dropzone span:hover {
+    background: #1a2530 !important;
+} 

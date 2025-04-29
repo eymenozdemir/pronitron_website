@@ -1,20 +1,25 @@
 import axios from "axios";
-import { config, base_url } from "../../utils/axiosConfig";
+import { base_url } from "../../utils/axiosConfig";
+
+const getProductSaleView = async () => {
+  const response = await axios.get(`${base_url}product/product-sale-view`);
+  return response.data;
+};
 
 const getProducts = async () => {
   const response = await axios.get(`${base_url}product/`);
-
   return response.data;
 };
-const offerProduct = async (product) => {
-  //const response = await axios.post(`${base_url}product/`, product, config);
-  const response = await axios.post(`${base_url}product/`, product);
+
+const getProduct = async (id) => {
+  const response = await axios.get(`${base_url}product/${id}`);
   return response.data;
 };
 
 const productService = {
   getProducts,
-  offerProduct,
+  getProduct,
+  getProductSaleView,
 };
 
 export default productService;

@@ -39,7 +39,7 @@ import SidenavCollapse from "examples/Sidenav/SidenavCollapse";
 import SidenavRoot from "examples/Sidenav/SidenavRoot";
 import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp, } from "react-icons/md";
-import logo from "assets/images/brandLogoWhite.png";
+import logo from "assets/images/pronitron_logo.png";
 
 // Material Dashboard 2 React context
 import {
@@ -218,7 +218,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             width={!brandName && "100%"}
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
-            <img src={logo} style={{ margin: "-10px" }} alt="Logo" width="80px" />
+            <img src={logo} style={{ margin: "-10px" }} alt="Logo" width="160px" />
             {/* <MDTypography component="h6" variant="button" fontSize="20px" fontWeight="medium" color={textColor}>
               {brandName}
             </MDTypography> */}

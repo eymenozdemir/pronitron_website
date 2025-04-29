@@ -1,21 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
-import compare from "../images/compare.svg";
-import wishlist from "../images/wishlist.svg";
-import labalsatLogo from "../images/yatay-labalsat.png";
 import pronitronLogo from "../images/pronitron_logo.png";
-import user from "../images/user.svg";
-import cart from "../images/cart.svg";
-import menu from "../images/menu.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
-import { getAProduct } from '../features/products/productSlice';
-import { getUserCart, getUserProductWishlist } from '../features/user/userSlice';
+import { getAProduct, getProducts } from '../needed/product/productSlice';
+import { getCategories } from '../needed/pcategory/pcategorySlice';
 import { useMediaQuery } from 'react-responsive';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
+import { FaBars } from 'react-icons/fa';
 
 /*
 <div>
@@ -36,56 +31,22 @@ const Header = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 1223px)' });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartState = useSelector(state=>state?.user?.cartProducts);
-  const authState = useSelector(state => state?.user);
-  const productState = useSelector(state => state?.product?.product);
+  const productState = useSelector(state => state?.product?.products);
+  const categoryState = useSelector(state => state?.pCategory?.pCategories);
+  const tempState = useSelector(state => state);
   const [productOpt, setProductOpt] = useState([]);
   const [paginate, setPaginate] = useState(true);
   //const options = range(0, 1000).map((o) => `Item ${o}`);
   const [total, setTotal] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); // i18n.language contains the language assigned to lng in i18n.js file.
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-
-  const getTokenFromLocalStorage = localStorage.getItem("customer")
-  ? JSON.parse(localStorage.getItem("customer")).token
-  : null;
-
-  const config2 = {
-      headers: {
-      Authorization: `Bearer ${
-          getTokenFromLocalStorage !== null ? getTokenFromLocalStorage : ""
-      }`,
-      Accept: "application/json",
-      User: JSON.parse(localStorage.getItem("customer"))?._id,
-      },
-  };
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  console.log(categoryState);
 
   useEffect(() => {
-    dispatch(getUserCart(config2));
+    dispatch(getCategories());
+    dispatch(getProducts());
 }, []);
-
-  useEffect(() => {
-    let sum = 0;
-    for (let index = 0; index < cartState?.length; index++) {
-      sum = sum + (Number(cartState[index].quantity) * cartState[index].price);
-      setTotal(sum);
-    }
-  }, [cartState]);
-
-  useEffect(() => {
-    let data = [];
-    for (let index = 0; index < productState?.length; index++) {
-      const element = productState[index];
-      data.push({id:index,prod:element?._id,name:element?.title});
-    }
-    setProductOpt(data);
-  }, [productState]);
-
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.reload();
-  }
 
   const chooseLanguage = (e) => {
     e.preventDefault();
@@ -94,20 +55,92 @@ const Header = () => {
     localStorage.setItem("lang", e.target.value);
 }
 
+  useEffect(() => {
+    const calculateHeaderHeight = () => {
+      const headerElement = document.querySelector('header');
+      if (headerElement) {
+        const height = headerElement.offsetHeight;
+        document.documentElement.style.setProperty('--header-height', `${height}px`);
+      }
+    };
+
+    // Calculate initially
+    calculateHeaderHeight();
+
+    // Recalculate on window resize
+    window.addEventListener('resize', calculateHeaderHeight);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', calculateHeaderHeight);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const headerUpper = document.querySelector('.header-upper');
+      if (headerUpper) {
+        if (window.scrollY > 0) {
+          headerUpper.classList.add('scrolled');
+        } else {
+          headerUpper.classList.remove('scrolled');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+    dispatch(getAProduct(productId));
+    setIsDropdownOpen(false);
+  };
+
   return (
   <>
     {
     <>
-      <header className="header-top-strip py-2">
+      <header className="header-top-strip py-2" style={{borderBottom: "1px solid white"}}>
         <div className="container-xxl">
           <div className="row">
-            <div className="col-6">
+            <div className="col-6 d-flex align-items-center">
               <p className="text-white mb-0">{t("Quote")}</p>
             </div>
-            <div className="d-flex justify-content-end col-6">
-              <select className=" text-white mb-0" style={{borderColor: "#131921", background: "#131921"}} defaultValue={selectedLanguage} onChange={chooseLanguage}>
-                  <option value="en">English</option>
-                  <option value="tr">Türkçe</option>
+            <div className="d-flex align-items-center justify-content-end col-6">
+              <select 
+                className="text-white mb-0" 
+                style={{
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  border: '1px solid rgba(255, 255, 255)',
+                  background: 'rgba(85,166,120,0.9)',
+                  fontSize: '0.9rem',
+                  transition: 'all 0.2s ease',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  appearance: 'none',
+                  backgroundImage: 'none',
+                  backgroundPosition: 'right 6px center',
+                  backgroundSize: '6px auto',
+                  paddingRight: '24px'
+                }}
+                defaultValue={selectedLanguage} 
+                onChange={chooseLanguage}
+              >
+                  <option value="en">🇬🇧 EN</option>
+                  <option value="tr">🇹🇷 TR</option>
               </select>
               <p className="text-white mb-0">&nbsp; | &nbsp;</p>
               <p className="text-end text-white mb-0"> <a className="text-white" href="tel: +90 533 051 5767"> +90 533 051 5767</a></p>
@@ -138,34 +171,38 @@ const Header = () => {
                   <Link to="/about" className="nav-link">{t("About Us")}</Link>
                 </li>
                 <li className="nav-item dropdown">
-                  <span className="nav-link dropdown-toggle">
+                  <span 
+                    className="nav-link dropdown-toggle" 
+                    onClick={toggleDropdown}
+                    style={{ cursor: 'pointer' }}
+                  >
                     {t("Products")}
                   </span>
-                  <ul className="dropdown-menu">
-                    <li className="dropdown-title">Nutech</li>
-                    <li>
-                      <Link to="/product1" className="dropdown-item">
-                        Nutech 3000
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product2" className="dropdown-item">
-                        Nutech 3000T
-                      </Link>
-                    </li>
-                    <li className="dropdown-title">Uniphos</li>
-                    <li>
-                      <Link to="/product3" className="dropdown-item">
-                        Uniphos tupler
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product4" className="dropdown-item">
-                        KwikDraw Tupler
-                      </Link>
-                    </li>
-                    <li className="dropdown-title">Kromatografi Sarf</li>
+                  <ul className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}>
+                    {categoryState?.map((category) => (
+                      <li key={category._id} className="dropdown-title">
+                        {category.title}
+                        <div className="submenu">
+                          {productState?.filter(product => product.category === category.title).map((product) => (
+                            <Link 
+                              key={product._id} 
+                              to={`/product/${product._id}`} 
+                              className="dropdown-item"
+                              onClick={() => handleProductClick(product._id)}
+                            >
+                              {product.title}
+                            </Link>
+                          ))}
+                        </div>
+                      </li>
+                    ))}
                   </ul>
+                </li>
+                <li className="nav-item">
+                  <Link to="/prolab" className="nav-link">{t("Prolab")}</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/maritime" className="nav-link">{t("Maritime")}</Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/partnerships" className="nav-link">{t("Partnerships")}</Link>
@@ -180,7 +217,7 @@ const Header = () => {
             </nav>
           </div>
 
-          {/* Search */}
+          {/* Search and Mobile Menu */}
           <div className="search-column">
             <div className="input-group">
               <Typeahead
@@ -201,7 +238,58 @@ const Header = () => {
                 <BsSearch className='fs-6' />
               </span>
             </div>
+            <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
+              <FaBars />
+            </div>
           </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`}>
+          <nav className="header-nav">
+            <ul className="nav-list">
+              <li className="nav-item">
+                <Link to="/" className="nav-link">{t("Home")}</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/about" className="nav-link">{t("About Us")}</Link>
+              </li>
+              <li className="nav-item dropdown">
+                <span className="nav-link dropdown-toggle">
+                  {t("Products")}
+                </span>
+                <ul className="dropdown-menu">
+                  {categoryState?.map((category) => (
+                    <li key={category._id} className="dropdown-title">
+                      {category.title}
+                      <div className="submenu">
+                        {productState?.filter(product => product.category === category.title).map((product) => (
+                          <Link key={product._id} to={`/product/${product._id}`} className="dropdown-item">
+                            {product.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+              <li className="nav-item">
+                <Link to="/prolab" className="nav-link">{t("Prolab")}</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/maritime" className="nav-link">{t("Maritime")}</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/partnerships" className="nav-link">{t("Partnerships")}</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/refurbished" className="nav-link">{t("Refurbished")}</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/contact" className="nav-link">{t("Contact")}</Link>
+              </li>
+            </ul>
+          </nav>
         </div>
       </header>
     </>}

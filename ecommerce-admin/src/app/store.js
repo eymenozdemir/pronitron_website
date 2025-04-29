@@ -11,6 +11,10 @@ import enquiryReducer from "../features/enquiry/enquirySlice";
 import contractReducer from "../features/contract/contractSlice";
 import uploadReducer from "../features/upload/uploadSlice";
 import couponReducer from "../features/coupon/couponSlice";
+import newsReducer from "../features/news/newsSlice";
+import bannerReducer from "../features/banner/bannerSlice";
+import solutionsReducer from "../features/solutions/solutionsSlice";
+import refurbishedReducer from "../features/refurbished/refurbishedSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -25,6 +29,10 @@ export const store = configureStore({
     contract: contractReducer,
     upload: uploadReducer,
     coupon: couponReducer,
+    news: newsReducer,
+    banner: bannerReducer,
+    solutions: solutionsReducer,
+    refurbished: refurbishedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

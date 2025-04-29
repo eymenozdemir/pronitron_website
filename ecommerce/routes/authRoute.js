@@ -32,10 +32,6 @@ const {
   getOrders,
   deleteOrder,
   getMyOrders,
-  getInvoice,
-  getInvoiceTn,
-  setInvoice,
-  updateOrder,
   updateOrderStatus,
   getAllOrders,
   removeProductFromCart,
@@ -46,7 +42,7 @@ const { getAllSale } = require("../controller/productCtrl");
 const router = express.Router();
 //router.post("/register", express.json(), createUser);
 router.post("/forgot-password-token", forgotPasswordToken);
-router.post("/", express.json(), createUser);
+router.post("/create-user", express.json(), createUser);
 
 router.put("/reset-password/:token", resetPassword);
 
@@ -59,7 +55,7 @@ router.put("/callback", express.json(), quickbooksCallback);
 router.post("/get-company-info", express.json(), getCompanyInfo);
 router.put("/get-company-info", express.json(), getCompanyInfo);
 router.get("/get-company-info", express.json(), getCompanyInfo);
-router.get("/get-invoice", express.json(), getInvoice);
+//router.get("/get-invoice", express.json(), getInvoice);
 router.post("/quickbooks-login-tn", express.json(), loginQuickbooksTn);
 router.post("/callback-tn", express.json(), quickbooksCallbackTn);
 router.get("/callback-tn", express.json(), quickbooksCallbackTn);
@@ -69,8 +65,8 @@ router.get("/is-logged-in-tn", express.json(), isLoggedInTn);
 router.post("/get-company-info-tn", express.json(), getCompanyInfoTn);
 router.put("/get-company-info-tn", express.json(), getCompanyInfoTn);
 router.get("/get-company-info-tn", express.json(), getCompanyInfoTn);
-router.get("/get-invoice-tn", express.json(), getInvoiceTn);
-router.post("/set-invoice", express.json(), setInvoice);
+//router.get("/get-invoice-tn", express.json(), getInvoiceTn);
+//router.post("/set-invoice", express.json(), setInvoice);
 router.post("/admin-login", express.json(),  loginAdmin);
 router.post("/cart", express.json(), authMiddleware, userCart);
 router.post("/cart/applycoupon", express.json(), authMiddleware, applyCoupon);
@@ -84,7 +80,7 @@ router.get("/get-all-sales", getAllSale);
 router.post("/getorderbyuser/:id", express.json(), authMiddleware, isAdmin, getAllOrders);
 router.get("/sales/:id", getASale);
 router.get("/orders/:id", getOrder);
-router.put("/order/:id", updateOrder);
+//router.put("/order/:id", updateOrder);
 router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
 router.get("/wishlist", authMiddleware, getWishlist);

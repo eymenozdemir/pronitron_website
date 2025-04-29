@@ -31,6 +31,22 @@ import userAgreement from "./pages/userAgreement";
 import privacyPolicy from "./pages/privacyPolicy";
 import { PrivateRoutes } from "./components/PrivateRoutes";
 
+// Import new components
+import Userlist from "./pages/Userlist";
+import ViewUser from "./pages/ViewUser";
+import Bannerlist from "./pages/Bannerlist";
+import Addbanner from "./pages/Addbanner";
+import ViewBanner from "./pages/ViewBanner";
+import Newslist from "./pages/Newslist";
+import Addnews from "./pages/Addnews";
+import ViewNews from "./pages/ViewNews";
+import Solutionslist from "./pages/Solutionslist";
+import Addsolutions from "./pages/Addsolutions";
+import ViewSolutions from "./pages/ViewSolutions";
+import ViewProduct from "./pages/ViewProduct";
+import ViewRefurbished from "./pages/ViewRefurbished";
+import Refurbishedlist from "./pages/Refurbishedlist";
+import Addrefurbished from "./pages/Addrefurbished"; 
 
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -84,7 +100,6 @@ function App() {
     darkMode,
   } = controller;
   return (
-
     <ThemeProvider theme={darkMode ? themeDark : theme}>
       <CssBaseline />
       <Router>
@@ -114,9 +129,32 @@ function App() {
             <Route path="savannah" element={<PrivateRoutes><Savannah /></PrivateRoutes>} />
             <Route path="nashville" element={<PrivateRoutes><Nashville /></PrivateRoutes>} />
             <Route path="atlanta" element={<PrivateRoutes><Atlanta /></PrivateRoutes>} />
-            <Route path="list-product" element={<PrivateRoutes><Productlist /></PrivateRoutes>} />
-            <Route path="product" element={<PrivateRoutes><Addproduct /></PrivateRoutes>} />
-            <Route path="product/:id" element={<PrivateRoutes><Addproduct /></PrivateRoutes>} />
+            <Route path="products" element={<PrivateRoutes><Productlist /></PrivateRoutes>} />
+            <Route path="add-product" element={<PrivateRoutes><Addproduct /></PrivateRoutes>} />
+            <Route path="add-product/:id" element={<PrivateRoutes><Addproduct /></PrivateRoutes>} />
+            <Route path="products/:id" element={<PrivateRoutes><ViewProduct /></PrivateRoutes>} />
+            {/* New Routes */}
+            <Route path="users" element={<PrivateRoutes><Userlist /></PrivateRoutes>} />
+            <Route path="users/:id" element={<PrivateRoutes><ViewUser /></PrivateRoutes>} />
+            <Route path="banner" element={<PrivateRoutes><Bannerlist /></PrivateRoutes>} />
+            <Route path="add-banner" element={<PrivateRoutes><Addbanner /></PrivateRoutes>} />
+            <Route path="add-banner/:id" element={<PrivateRoutes><Addbanner /></PrivateRoutes>} />
+            <Route path="banner/:id" element={<PrivateRoutes><ViewBanner /></PrivateRoutes>} />
+            <Route path="news" element={<PrivateRoutes><Newslist /></PrivateRoutes>} />
+            <Route path="add-news" element={<PrivateRoutes><Addnews /></PrivateRoutes>} />
+            <Route path="add-news/:id" element={<PrivateRoutes><Addnews /></PrivateRoutes>} />
+            <Route path="news/:id" element={<PrivateRoutes><ViewNews /></PrivateRoutes>} />
+            <Route path="solutions" element={<PrivateRoutes><Solutionslist /></PrivateRoutes>} />
+            <Route path="add-solutions" element={<PrivateRoutes><Addsolutions /></PrivateRoutes>} />
+            <Route path="add-solutions/:id" element={<PrivateRoutes><Addsolutions /></PrivateRoutes>} />
+            <Route path="solutions/:id" element={<PrivateRoutes><ViewSolutions /></PrivateRoutes>} />
+            <Route path="categories" element={<PrivateRoutes><Categorylist /></PrivateRoutes>} />
+            <Route path="add-categories" element={<PrivateRoutes><Addcat /></PrivateRoutes>} />
+            <Route path="add-categories/:id" element={<PrivateRoutes><Addcat /></PrivateRoutes>} />
+            <Route path="refurbisheds" element={<PrivateRoutes><Refurbishedlist /></PrivateRoutes>} />
+            <Route path="add-refurbished" element={<PrivateRoutes><Addrefurbished /></PrivateRoutes>} />
+            <Route path="add-refurbished/:id" element={<PrivateRoutes><Addrefurbished /></PrivateRoutes>} />
+            <Route path="refurbished/:id" element={<PrivateRoutes><ViewRefurbished /></PrivateRoutes>} />
           </Route>
         </Routes>
       </Router>

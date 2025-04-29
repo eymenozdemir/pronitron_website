@@ -16,12 +16,20 @@ const cloudinaryUploadImg = async (fileToUploads) => {
           public_id: result.public_id,
         },
         {
-          resource_type: "auto",
+          resource_type: "raw",
+          format: "pdf",
+          allowed_formats: ["pdf", "docx"],
+          use_filename: true,
+          unique_filename: true,
+          public_id: `downloadables/${Date.now()}`,
+          access_mode: "public",
+          overwrite: true
         }
       );
     });
   });
 };
+
 const cloudinaryDeleteImg = async (fileToDelete) => {
   return new Promise((resolve) => {
     //console.log("cloudinary", fileToDelete);
@@ -33,7 +41,7 @@ const cloudinaryDeleteImg = async (fileToDelete) => {
           public_id: result.public_id,
         },
         {
-          resource_type: "auto",
+          resource_type: "raw",
         }
       );
     });

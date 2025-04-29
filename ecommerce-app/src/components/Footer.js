@@ -73,10 +73,10 @@ const Footer = () => {
 
             {/* Rest of the footer content */}
             <div className="row">
-              <div className="col-1">
+              <div className="col-2">
               </div>
               <div className="col-4">
-                <h4 className='text-white mb-4'>{t("ContactUs")}</h4>
+                <h4 className='text-white mb-4'>{t("Contact Us")}</h4>
                 <div>
                   <address className='text-white fs-6'>Koşuyolu, İsmail Paşa Sk. No:33 <br />34718 Kadıköy/İstanbul</address>
                   <a href="tel:+902164726956" className="mt-2 d-block mb-1 text-white"> <img className='me-2' src={contact2} alt='service-03' /> +90 216 472 6956</a>
@@ -86,23 +86,14 @@ const Footer = () => {
                 </div>
               </div>
               <div className="col-4">
-                <h4 className='text-white mb-4'>{t("Information")}</h4>
-                <div className='footer-links d-flex flex-column'>
+                <h4 className='text-white mb-4 text-end'>{t("Information")}</h4>
+                <div className='footer-links d-flex flex-column text-end'>
                   <Link to='/privacy-policy' className="text-white py-1 mb-1">{t("Guarantee")}</Link>
                   <Link to='/shipping-policy' className="text-white py-1 mb-1">{t("Warranties")}</Link>
                   <Link to='/refund-policy' className="text-white py-1 mb-1">{t("BroadScope")}</Link>
                   <Link to='/faq' className="text-white py-1 mb-1">{t("ServiceContracts")}</Link>
                   <Link to='/service-engineer' className="text-white py-1 mb-1">{t("ServiceEng")}</Link>
                   <Link to='/terms-conditions' className="text-white py-1 mb-1">{t("TermsOfService")}</Link>
-                </div>
-              </div>
-              <div className="col-2">
-                <h4 className='text-white mb-4'>{t("Account")}</h4>
-                <div className='footer-links d-flex flex-column'>
-                  <Link to='/my-profile' className="text-white py-1 mb-1">{t("Profile")}</Link>
-                  <Link to='/wishlist' className="text-white py-1 mb-1">{t("Wishlist")}</Link>
-                  <Link to='/my-profile' className="text-white py-1 mb-1">{t("Orders")}</Link>
-                  <Link to="/offer" className="text-white py-1 mb-1">{t("NewOffer")}</Link>
                 </div>
               </div>
             </div>

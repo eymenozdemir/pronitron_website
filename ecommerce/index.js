@@ -11,6 +11,9 @@ const brandRouter = require("./routes/brandRoute");
 const pCategoryRouter = require("./routes/prodcategoryRoute");
 const productRouter = require("./routes/productRoute");
 const uploadRouter = require("./routes/uploadRoute");
+const bannerRouter = require("./routes/bannerRoute");
+const newsRouter = require("./routes/newsRoute");
+const solutionsRouter = require("./routes/solutionsRoute");
 
 dbConnect();
 
@@ -30,6 +33,15 @@ app.use("/api/brand", brandRouter);
 
 app.use("/api/upload", uploadRouter);
 
+app.use("/api/banner", bannerRouter);
+
+app.use("/api/news", newsRouter);
+
+app.use("/api/solutions", solutionsRouter);
+
+app.get("/", (req, res) => {
+    res.send("Hello from other side");
+});
 
 app.use(notFound);
 

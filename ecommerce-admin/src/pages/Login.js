@@ -1,10 +1,10 @@
-import logo from "assets/images/brandLogoWhite.png";
+import logo from "assets/images/pronitron_logo.png";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { login, createUser } from "../features/auth/authSlice";
 
 
 
@@ -167,9 +167,27 @@ function Basic() {
     if (isSuccess) {
       navigate("admin");
     } else {
-      navigate("");
+      
     }
   }, [user, isError, isSuccess, isLoading]);
+
+  const createAdminUser = () => {
+    const adminData = {
+      name: "Eymen Ozdemir",
+      email: "eymenozdemir55@gmail.com",
+      password: "qwerty123",
+      role: "Admin"
+    };
+    
+    dispatch(createUser(adminData))
+      .unwrap()
+      .then(() => {
+        alert('Admin user created successfully!');
+      })
+      .catch((error) => {
+        alert(error.message || 'Error creating admin user');
+      });
+  };
 
   return (
     <BasicLayout image={bgImage}>
@@ -185,7 +203,7 @@ function Basic() {
           mb={1}
           textAlign="center"
         >
-          <img src={logo} style={{ margin: "0px" }} alt="Logo" width="100px" />
+          <img src={logo} style={{ marginBottom: "2rem" }} alt="Logo" width="160px" />
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Sign in
           </MDTypography>
@@ -268,6 +286,16 @@ function Basic() {
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth onClick={() => { formik.handleSubmit() }}>
                 sign in
+              </MDButton>
+            </MDBox>
+            <MDBox mt={2} mb={1}>
+              <MDButton 
+                variant="gradient" 
+                color="success" 
+                fullWidth 
+                onClick={createAdminUser}
+              >
+                Create Admin User
               </MDButton>
             </MDBox>
             {/* <MDBox mt={3} mb={1} textAlign="center">

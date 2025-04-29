@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Meta from '../components/Meta';
 import BreadCrumb from '../components/BreadCrumb';
 import Container from '../components/Container';
@@ -6,11 +6,79 @@ import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
 import refurbishedBanner from "../images/pronitron_about.jpg";
 import { Link } from 'react-router-dom';
+import { getRefurbisheds } from '../needed/refurbished/refurbishedSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import pic1 from "../images/Picture1.png";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Refurbished = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isDesktop = useMediaQuery({ query: '(min-width: 1224px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 1223px)' });
+  const dispatch = useDispatch();
+  
+  const sliderRef = useRef(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const productSliderRef = useRef(null);
+  const langSelection = i18n.language === 'en' ? 0 : 1; // 0 for English, 1 for other languages
+  const productSliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1224,
+        settings: {
+          slidesToShow: 3,
+        }
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
+        }
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+        }
+      }
+    ]
+  };
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 7000,
+    fade: true,
+    pauseOnHover: false,
+    cssEase: 'cubic-bezier(0.87, 0, 0.13, 1)',
+    beforeChange: (oldIndex, newIndex) => {
+      setCurrentSlide(newIndex);
+    }
+  };
+
+  useEffect(() => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPlay();
+    }
+  }, []);
+
+  useEffect(() => {
+    dispatch(getRefurbisheds());
+  }, []);
+
+
+  const refurbishedState = useSelector(state => state?.refurbished?.refurbishedName);
 
   const refurbishedProducts = [
     {
@@ -99,49 +167,66 @@ const Refurbished = () => {
                 </div>
               </div>
 
-              {/* Products Grid */}
-              <div className="section mb-5">
-                <h2 className="section-heading">{t("Available Equipment")}</h2>
-                <div className="refurbished-products-grid">
-                  {refurbishedProducts.map((product) => (
-                    <div key={product.id} className="refurbished-product-card">
-                      <div className="product-header">
-                        <h3>{product.name}</h3>
-                        <span className="condition-badge">{product.condition}</span>
-                      </div>
-                      <div className="product-body">
-                        <p className="description">{product.description}</p>
-                        <ul className="features-list">
-                          {product.features.map((feature, index) => (
-                            <li key={index}>{feature}</li>
-                          ))}
-                        </ul>
-                        <div className="product-footer">
-                          <div className="warranty">
-                            <i className="fas fa-shield-alt"></i>
-                            <span>{product.warranty} {t("Warranty")}</span>
-                          </div>
-                          <div className="savings">
-                            <i className="fas fa-tags"></i>
-                            <span>{t("Save up to")} {product.savings}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <Link to={`/contact`} className="inquiry-button">
-                        {t("Request Information")}
+      {/* Featured Products */}
+      <Container class1="featured-products bg-light py-5">
+        <div className="row">
+          <div className="col-12 text-center mb-4">
+            <h2>{t("Refurbished Products")}</h2>
+          </div>
+          <div className="position-relative">
+            <div className="product-navigation">
+              <button 
+                className="nav-button prev" 
+                onClick={() => productSliderRef.current?.slickPrev()}
+              >
+                ←
+              </button>
+              <button 
+                className="nav-button next" 
+                onClick={() => productSliderRef.current?.slickNext()}
+              >
+                →
+              </button>
+            </div>
+            <Slider ref={productSliderRef} {...productSliderSettings}>
+              {refurbishedState?.map((product, index) => (
+                <div key={index} className="product-slide">
+                  <div className="product-card">
+                    <img 
+                      src={product.images[0]?.url} 
+                      alt={product.title.split('[trTranslation]')[langSelection]} 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = pic1; // Fallback image
+                      }}
+                    />
+                    <div className="product-card-content">
+                      <h3>{product.title.split('[trTranslation]')[langSelection]}</h3>
+                      <p>{product.description.split('[trTranslation]')[langSelection]}</p>
+                      <Link to={`/product/${product._id}`} className="learn-more">
+                        {t("View Product")} →
                       </Link>
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
+              ))}
+            </Slider>
+          </div>
+        </div>
+      </Container>
 
               {/* Call to Action */}
               <div className="cta-section text-center">
                 <h2>{t("Interested in Our Refurbished Equipment?")}</h2>
                 <p>{t("Contact us to learn more about our current inventory and special offers.")}</p>
-                <Link to="/contact" className="button">
+                <a 
+                  href="https://wa.me/905330515767" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="button"
+                >
                   {t("Contact Us")}
-                </Link>
+                </a>
               </div>
             </div>
           </div>

@@ -11,46 +11,13 @@ var userSchema = new mongoose.Schema(
     email: {
       type: String,
     },
-    email2: {
-      type: String,
-    },
-    email3: {
-      type: String,
-    },
-    mobile: {
-      type: String,
-    },
     password: {
       type: String,
     },
     role: {
       type: String,
-      default: "customer",
+      default: "admin",
     },
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
-    cart: {
-      type: Array,
-      default: [],
-    },
-    address: {
-      type: String,
-    },
-    city: {
-      type: String,
-    },
-    country: {
-      type: String,
-    },
-    zip: {
-      type: Number,
-    },
-    state: {
-      type: String,
-    },
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
     refreshToken: {
       type: String,
     },

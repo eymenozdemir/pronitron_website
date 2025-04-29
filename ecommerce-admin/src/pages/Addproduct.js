@@ -6,27 +6,23 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { createProducts, resetState, getAProduct, updateAProduct } from "../features/product/productSlice";
-
+import { getCategories } from "../features/pcategory/pcategorySlice";
+import { Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import Dropzone from "react-dropzone";
+import { delImg, uploadImg, resetImg, getImgs, loadImg, loadDownloadables, delDownloadables, uploadDownloadables} from "../features/upload/uploadSlice";
 
 let schema = yup.object().shape({
-  SKU: yup.string(),
   title: yup.string().required("Title is Required"),
-  vendor: yup.string(),
-  price: yup.number(),
-  category: yup.string(),
-  subCategory: yup.string(),
-  size: yup.string(),
-  caseQuantity: yup.number(),
-  caseUnit: yup.string(),
-  casePallet: yup.number(),
-  stockNashville: yup.number(),
-  stockSavannah: yup.number(),
-  stockAtlanta: yup.number(),
-  toNashville: yup.number(),
-  toSavannah: yup.number(),
-  toAtlanta: yup.number(),
-  stockTr: yup.number(),
-  stockTreshold: yup.number(),
+  itemID: yup.string().required("Item ID is Required"),
+  category: yup.string().required("Category is Required"),
+  condition: yup.string(),
+  availability: yup.string(),
+  manufacturer: yup.string(),
+  requestQuote: yup.string(),
+  shipping: yup.string(),
+  description: yup.string(),
+  video: yup.string(),
 });
 
 const Addproduct = () => {
@@ -35,18 +31,31 @@ const Addproduct = () => {
   const location = useLocation();
   const getProdId = location.pathname.split("/")[3];
   const [images, setImages] = useState([]);
-  useEffect(() => {
-    //dispatch(getBrands());
-    //dispatch(getCategories());
-    //dispatch(getAProduct(getProdId));
-  }, []);
-  
-  const newProduct = useSelector((state) => state.product);
-  //const productState = useSelector(state => state?.product?.productName);
-  const { isSuccess, isError, isLoading, createdProduct, updatedProduct, productName } = newProduct;
-  //console.log("getProdId",newProduct,productName);
+  const [downloadables, setDownloadables] = useState([]);
+  const [systemIncludes, setSystemIncludes] = useState([{ description: "" }]);
+  const [specifications, setSpecifications] = useState([{ title: "", description: "" }]);
+
+  const imgState = useSelector((state) => state?.upload?.images);
+  const downloadableState = useSelector((state) => state?.upload?.downloadables);
+  const productState = useSelector((state) => state?.product);
+  const categoryState = useSelector((state) => state?.pCategory?.pCategories);
+  const { isSuccess, isError, isLoading, createdProduct, updatedProduct, productName } = productState;
+
+  const [formValues, setFormValues] = useState({
+    title: "",
+    itemID: "",
+    category: "",
+    condition: "",
+    availability: "",
+    manufacturer: "",
+    requestQuote: "",
+    shipping: "",
+    description: "",
+    video: "",
+  });
 
   useEffect(() => {
+    dispatch(getCategories());
     if (getProdId !== undefined) {
       dispatch(getAProduct(getProdId));
     } else {
@@ -55,277 +64,421 @@ const Addproduct = () => {
   }, [getProdId]);
 
   useEffect(() => {
+    if (productName) {
+      setFormValues({
+        title: productName.title || "",
+        itemID: productName.itemID || "",
+        category: productName.category || "",
+        condition: productName.condition || "",
+        availability: productName.availability || "",
+        manufacturer: productName.manufacturer || "",
+        requestQuote: productName.requestQuote || "",
+        shipping: productName.shipping || "",
+        description: productName.description || "",
+        video: productName.video || "",
+      });
+
+      // Set systemIncludes from product data
+      if (productName.systemIncludes && productName.systemIncludes.length > 0) {
+        setSystemIncludes(productName.systemIncludes);
+      } else {
+        setSystemIncludes([{ description: "" }]);
+      }
+
+      // Set specifications from product data
+      if (productName.specifications && productName.specifications.length > 0) {
+        setSpecifications(productName.specifications);
+      } else {
+        setSpecifications([{ title: "", description: "" }]);
+      }
+    }
+  }, [productName]);
+
+  useEffect(() => {
     if (isSuccess && createdProduct) {
-      toast.success("Product Added Successfullly!");
+      toast.success("Product Added Successfully!");
+      navigate("/admin/products");
     }
     if (isSuccess && updatedProduct) {
-      toast.success("Product Updated Successfullly!");
+      toast.success("Product Updated Successfully!");
       dispatch(resetState());
-      navigate("/admin/list-product");
+      navigate("/admin/products");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
     }
   }, [isSuccess, isError, isLoading]);
 
-
-/*
-  let img = [];
-  productName?.images.forEach((i) => {
-    img.push({
-      public_id: i.public_id,
-      url: i.url,
-    });
-  });
-  imgState.forEach((i) => {
-    img.push({
-      public_id: i.public_id,
-      url: i.url,
-    });
-  });
-*/
-  /*
   useEffect(() => {
-    formik.values.images = img;
-  }, [img]);
-  */
+    dispatch(loadImg(productName?.images));
+    dispatch(loadDownloadables(productName?.downloadables));
+  }, [productName]);
+
+  useEffect(() => {
+    formik.values.images = imgState;
+  }, [imgState]);
+
+  useEffect(() => {
+    formik.values.downloadables = downloadableState;
+  }, [downloadableState]);
+
+  const handleImageUpload = (info) => {
+    if (info.file.status === "done") {
+      setImages([...images, info?.file?.response]);
+    }
+  };
+
+  const addSystemInclude = () => {
+    setSystemIncludes([...systemIncludes, { description: "" }]);
+  };
+
+  const removeSystemInclude = (index) => {
+    const newSystemIncludes = [...systemIncludes];
+    newSystemIncludes.splice(index, 1);
+    setSystemIncludes(newSystemIncludes);
+  };
+
+  const addSpecification = () => {
+    setSpecifications([...specifications, { title: "", description: "" }]);
+  };
+
+  const removeSpecification = (index) => {
+    const newSpecifications = [...specifications];
+    newSpecifications.splice(index, 1);
+    setSpecifications(newSpecifications);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const onDrop = async (acceptedFiles) => {
+    try {
+      console.log('Files received:', acceptedFiles);
+      
+      // Filter files by type
+      const validFiles = acceptedFiles.filter(file => {
+        const fileType = file.type;
+        console.log('File type:', fileType);
+        return (
+          fileType === 'application/pdf' ||
+          fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+          fileType === 'image/png' ||
+          fileType === 'image/jpeg' ||
+          fileType === 'image/jpg'
+        );
+      });
+
+      if (validFiles.length !== acceptedFiles.length) {
+        toast.error("Some files were rejected. Please only upload PDF, DOCX, or image files.");
+        return;
+      }
+
+      console.log('Valid files:', validFiles);
+
+      // Create FormData
+      const formData = new FormData();
+      validFiles.forEach(file => {
+        formData.append('downloadables', file);
+      });
+
+      // Log FormData contents
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      // Dispatch the upload action
+      const result = await dispatch(uploadDownloadables(validFiles));
+      console.log('Upload result:', result);
+      
+      if (result.error) {
+        toast.error("Upload failed. Please try again.");
+      } else {
+        toast.success("Files uploaded successfully!");
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error("Upload failed. Please try again.");
+    }
+  };
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      SKU: productName?.SKU?.trim() || "",
-      title: productName?.title?.trim() || "",
-      category: productName?.category?.trim() || "",
-      subCategory: productName?.subCategory?.trim() || "",
-      size: productName?.size?.trim() || "",
-      vendor: productName?.vendor?.trim() || "",
-      price: productName?.price || 0,
-      caseQuantity: productName?.caseQuantity || 0,
-      caseUnit: productName?.caseUnit || "N/A",
-      casePallet: productName?.casePallet || 0,
-      stockNashville: productName?.stockNashville || 0,
-      stockSavannah: productName?.stockSavannah || 0,
-      stockAtlanta: productName?.stockAtlanta || 0,
-      toNashville: productName?.toNashville || 0,
-      toSavannah: productName?.toSavannah || 0,
-      toAtlanta: productName?.toAtlanta || 0,
-      stockTr: productName?.stockTr || 0,
-      stockTreshold: productName?.stockTreshold || 1,
-    },
+    initialValues: formValues,
     validationSchema: schema,
     onSubmit: (values) => {
-      
+      const data = {
+        prodData: {
+          ...values,
+          systemIncludes: systemIncludes,
+          specifications: specifications,
+        },
+        prodImg: imgState,
+        prodDownloadables: downloadableState,
+      };
+
       if (getProdId !== undefined) {
-        const data = { id: getProdId, prodData: values};
-        //console.log("submitted", data);
-        dispatch(updateAProduct(data));
-        formik.resetForm();
-        dispatch(resetState());
+        dispatch(updateAProduct({ id: getProdId, ...data }));
       } else {
-        //const data2 = {prodData: values, prodImg: imgState};
-        //console.log("submitted", values);
-        dispatch(createProducts(values));
-        formik.resetForm();
-        setTimeout(() => {
-          dispatch(resetState());
-        }, 1000);
+        dispatch(createProducts(data));
       }
+      setTimeout(() => {
+        dispatch(resetState());
+        navigate("/admin/products");
+      }, 300);
     },
   });
+
   return (
     <div>
-      <h3 className="mb-4 title">Add Product</h3>
+      <h3 className="mb-4 title">{getProdId !== undefined ? "Edit" : "Add"} Product</h3>
       <div>
-        <form
-          onSubmit={formik.handleSubmit}
-          className="d-flex gap-3 flex-column"
-        >
+        <form onSubmit={formik.handleSubmit} className="d-flex gap-3 flex-column">
           <CustomInput
             type="text"
-            label="Enter SKU Item Number"
-            name="SKU"
-            onChng={formik.handleChange("SKU")}
-            onBlr={formik.handleBlur("SKU")}
-            val={formik.values.SKU}
-          />
-          <CustomInput
-            type="text"
-            label="Enter Item Title"
+            label="Enter Product Title"
             name="title"
-            onChng={formik.handleChange("title")}
-            onBlr={formik.handleBlur("title")}
-            val={formik.values.title}
+            onChng={handleInputChange}
+            val={formValues.title}
           />
           <CustomInput
             type="text"
-            label="Enter Category"
-            name="category"
-            onChng={formik.handleChange("category")}
-            onBlr={formik.handleBlur("category")}
-            val={formik.values.category}
+            label="Enter Item ID"
+            name="itemID"
+            onChng={handleInputChange}
+            val={formValues.itemID}
           />
-          <CustomInput
-            type="text"
-            label="Enter Subcategory"
-            name="subCategory"
-            onChng={formik.handleChange("subCategory")}
-            onBlr={formik.handleBlur("subCategory")}
-            val={formik.values.subCategory}
-          />
-          <CustomInput
-            type="text"
-            label="Enter Size"
-            name="size"
-            onChng={formik.handleChange("size")}
-            onBlr={formik.handleBlur("size")}
-            val={formik.values.size}
-          />
-          <CustomInput
-            type="text"
-            label="Enter Vendor if Specific"
-            name="vendor"
-            onChng={formik.handleChange("vendor")}
-            onBlr={formik.handleBlur("vendor")}
-            val={formik.values.vendor}
-          />
-          <CustomInput
-            type="number"
-            label="Enter Cost Price"
-            name="price"
-            onChng={formik.handleChange("price")}
-            onBlr={formik.handleBlur("price")}
-            val={formik.values.price}
-          />
-          <div className="row">
-            <div className="col-6">
-            <CustomInput
-              type="number"
-              label="Enter Quantity"
-              name="caseQuantity"
-              onChng={formik.handleChange("caseQuantity")}
-              onBlr={formik.handleBlur("caseQuantity")}
-              val={formik.values.caseQuantity}
-            />
-            </div>
-            <div className="col-6">
+          <div className="mb-3">
             <select
-              name="caseUnit"
-              onChange={formik.handleChange("caseUnit")}
-              onBlur={formik.handleBlur("caseUnit")}
-              value={formik.values.caseUnit}
-              className="form-control py-3 mt-3"
-              id=""
+              name="category"
+              onChange={handleInputChange}
+              value={formValues.category}
+              className="form-control py-3"
             >
-              <option value="-" disabled>
-              {productName?.caseUnit ? productName?.caseUnit : "Select Case Unit"}
-              </option>
-              <option value="sq/ft">sq/ft</option>
-              <option value="sq/lnft">sq/lnft</option>
-              <option value="N/A">N/A</option>
+              <option value="">Select Category</option>
+              {categoryState?.map((category, index) => (
+                <option key={index} value={category.title}>
+                  {category.title}
+                </option>
+              ))}
             </select>
-            </div>
           </div>
           <CustomInput
-            type="number"
-            label="Enter Case per Pallet"
-            name="casePallet"
-            onChng={formik.handleChange("casePallet")}
-            onBlr={formik.handleBlur("casePallet")}
-            val={formik.values.casePallet}
+            type="text"
+            label="Enter Condition"
+            name="condition"
+            onChng={handleInputChange}
+            val={formValues.condition}
           />
-          <div className="row">
-            <div className="col-4">
-            <CustomInput
-              type="number"
-              label="Enter Stock at Savannah"
-              name="stockSavannah"
-              onChng={formik.handleChange("stockSavannah")}
-              onBlr={formik.handleBlur("stockSavannah")}
-              val={formik.values.stockSavannah}
+          <CustomInput
+            type="text"
+            label="Enter Availability"
+            name="availability"
+            onChng={handleInputChange}
+            val={formValues.availability}
+          />
+          <CustomInput
+            type="text"
+            label="Enter Manufacturer"
+            name="manufacturer"
+            onChng={handleInputChange}
+            val={formValues.manufacturer}
+          />
+          <CustomInput
+            type="text"
+            label="Enter Request Quote"
+            name="requestQuote"
+            onChng={handleInputChange}
+            val={formValues.requestQuote}
+          />
+          <CustomInput
+            type="text"
+            label="Enter Shipping Details"
+            name="shipping"
+            onChng={handleInputChange}
+            val={formValues.shipping}
+          />
+          <div className="mb-3">
+            <textarea
+              className="form-control"
+              placeholder="Enter Product Description"
+              name="description"
+              onChange={handleInputChange}
+              value={formValues.description}
+              rows="4"
             />
-            </div>
-            <div className="col-4">
-            <CustomInput
-              type="number"
-              label="Enter Stock at Nashville"
-              name="stockNashville"
-              onChng={formik.handleChange("stockNashville")}
-              onBlr={formik.handleBlur("stockNashville")}
-              val={formik.values.stockNashville}
-            />
-            </div>
-            <div className="col-4">
-            <CustomInput
-              type="number"
-              label="Enter Stock at Atlanta"
-              name="stockAtlanta"
-              onChng={formik.handleChange("stockAtlanta")}
-              onBlr={formik.handleBlur("stockAtlanta")}
-              val={formik.values.stockAtlanta}
-            />
-            </div>
           </div>
-          <div className="row">
-            <div className="col-4">
-            <CustomInput
-              type="number"
-              label="Enter Number of Items going to Savannah"
-              name="toSavannah"
-              onChng={formik.handleChange("toSavannah")}
-              onBlr={formik.handleBlur("toSavannah")}
-              val={formik.values.toSavannah}
-            />
-            </div>
-            <div className="col-4">
-            <CustomInput
-              type="number"
-              label="Enter Number of Items going to Nashville"
-              name="toNashville"
-              onChng={formik.handleChange("toNashville")}
-              onBlr={formik.handleBlur("toNashville")}
-              val={formik.values.toNashville}
-            />
-            </div>
-            <div className="col-4">
-            <CustomInput
-              type="number"
-              label="Enter Number of Items going to Atlanta"
-              name="toAtlanta"
-              onChng={formik.handleChange("toAtlanta")}
-              onBlr={formik.handleBlur("toAtlanta")}
-              val={formik.values.toAtlanta}
-            />
-            </div>
+          <CustomInput
+            type="text"
+            label="Enter Product Video URL"
+            name="video"
+            onChng={handleInputChange}
+            val={formValues.video}
+          />
+          
+          <div className="mb-3">
+            <h5>System Includes</h5>
+            {systemIncludes.map((include, index) => (
+              <div key={index} className="d-flex gap-2 mb-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter System Include"
+                  value={include.description}
+                  onChange={(e) => {
+                    const newSystemIncludes = [...systemIncludes];
+                    newSystemIncludes[index].description = e.target.value;
+                    setSystemIncludes(newSystemIncludes);
+                  }}
+                />
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => removeSystemInclude(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn btn-primary mt-2"
+              onClick={addSystemInclude}
+            >
+              Add System Include
+            </button>
           </div>
-          <div className="row">
-            <div className="col-6">
-            <CustomInput
-              type="number"
-              label="Enter Stock at Turkiye"
-              name="stockTr"
-              onChng={formik.handleChange("stockTr")}
-              onBlr={formik.handleBlur("stockTr")}
-              val={formik.values.stockTr}
-            />
-            </div>
-            <div className="col-6">
-            <CustomInput
-              type="number"
-              label="Enter Stock Treshold"
-              name="stockTreshold"
-              onChng={formik.handleChange("stockTreshold")}
-              onBlr={formik.handleBlur("stockTreshold")}
-              val={formik.values.stockTreshold}
-            />
-            </div>
+
+          <div className="mb-3">
+            <h5>Specifications</h5>
+            {specifications.map((spec, index) => (
+              <div key={index} className="d-flex flex-column gap-2 mb-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Specification Title"
+                  value={spec.title}
+                  onChange={(e) => {
+                    const newSpecifications = [...specifications];
+                    newSpecifications[index].title = e.target.value;
+                    setSpecifications(newSpecifications);
+                  }}
+                />
+                <textarea
+                  className="form-control"
+                  placeholder="Enter Specification Description"
+                  value={spec.description}
+                  onChange={(e) => {
+                    const newSpecifications = [...specifications];
+                    newSpecifications[index].description = e.target.value;
+                    setSpecifications(newSpecifications);
+                  }}
+                  rows="2"
+                />
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => removeSpecification(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn btn-primary mt-2"
+              onClick={addSpecification}
+            >
+              Add Specification
+            </button>
           </div>
+
+          <h5>Product Images</h5>
+          <div className="bg-white border-1 p-5 text-center">
+            <Dropzone
+              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>
+                      Drag 'n' drop some files here, or click <span style={{background:"#232f3e", color:"white"}}> &nbsp; here&nbsp; </span> &nbsp;to select files
+                    </p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+          </div>
+          <div className="showimages d-flex flex-wrap gap-3">
+            {imgState?.map((i, j) => {
+              return (
+                <div className=" position-relative" key={j}>
+                  <button
+                    type="button"
+                    onClick={() => dispatch(delImg({id:i.public_id, images:imgState}))}
+                    className="btn-close position-absolute"
+                    style={{ top: "10px", right: "10px" }}
+                  ></button>
+                  <img src={i.url} alt="" width={200} height={200} />
+                </div>
+              );
+            })}
+          </div>
+
+          <h5>Downloadables</h5>
+          <div className="bg-white border-1 p-5 text-center">
+            <Dropzone
+              onDrop={onDrop}
+              accept={{
+                'application/pdf': ['.pdf'],
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+                'image/*': ['.png', '.jpg', '.jpeg']
+              }}
+              maxSize={10485760} // 10MB
+            >
+              {({ getRootProps, getInputProps, isDragActive }) => (
+                <section>
+                  <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''}`}>
+                    <input {...getInputProps()} />
+                    <p>
+                      Drag 'n' drop files here, or click <span style={{background:"#232f3e", color:"white"}}> &nbsp; here&nbsp; </span> &nbsp;to select files
+                    </p>
+                    <p className="text-muted small">
+                      Supported formats: PDF, DOCX, PNG, JPG (Max size: 10MB)
+                    </p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+          </div>
+          <div className="showimages d-flex flex-wrap gap-3">
+            {downloadableState?.map((i, j) => {
+              return (
+                <div className=" position-relative" key={j}>
+                  <p>{i.url}</p>
+                  <button
+                    type="button"
+                    onClick={() => dispatch(delDownloadables({id:i.public_id, downloadables:downloadableState}))}
+                    className="btn-close position-absolute"
+                    style={{ top: "10px", right: "10px" }}
+                  ></button>
+                  <img src={i.url} alt="" width={200} height={200} />
+                </div>
+              );
+            })}
+          </div>
+
           <button
             className="btn btn-success border-0 rounded-3 my-5"
             type="submit"
           >
             {getProdId !== undefined ? "Edit" : "Add"} Product
           </button>
-          {formik.touched.title && formik.errors.title ? <div className="error" style={{color: 'red'}}>{formik.touched.title && formik.errors.title} !</div> : ""}
         </form>
       </div>
     </div>

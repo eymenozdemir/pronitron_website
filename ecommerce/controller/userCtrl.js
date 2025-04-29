@@ -257,7 +257,7 @@ const getCompanyInfoTn = asyncHandler(async (req, res) => {
     });
 });
 
-
+/*
 const getInvoice = asyncHandler(async (req, res) => {
 
   const allSales = await Sale.find({ branch: "Atlanta" }).sort({ date: -1 });
@@ -517,7 +517,6 @@ const getInvoiceTn = asyncHandler(async (req, res) => {
     });
 });
 
-
 const setInvoice = asyncHandler(async (req, res) => {
   //const companyID = oauthClient.getToken().realmId;
 
@@ -531,6 +530,7 @@ const setInvoice = asyncHandler(async (req, res) => {
   }
 });
 // admin login
+*/
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -643,7 +643,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
 const getallUser = asyncHandler(async (req, res) => {
   try {
-    const getUsers = await User.find().populate("wishlist");
+    const getUsers = await User.find();
     res.json(getUsers);
   } catch (error) {
     throw new Error(error);
@@ -1086,6 +1086,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   }
 });
 
+/*
 const updateOrder = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
@@ -1187,6 +1188,7 @@ const updateOrder = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
+*/
 
 module.exports = {
   createUser,
@@ -1201,9 +1203,6 @@ module.exports = {
   isLoggedInTn,
   getallUser,
   getaUser,
-  getInvoice,
-  getInvoiceTn,
-  setInvoice,
   deleteaUser,
   updateUser,
   handleRefreshToken,
@@ -1227,7 +1226,6 @@ module.exports = {
   getOrders,
   deleteOrder,
   updateOrderStatus,
-  updateOrder,
   getAllOrders,
   getOrderByUserId,
 };

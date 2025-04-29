@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import authService from "./authServices";
+import authService from "./authService";
 
 const getUserfromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -191,7 +191,7 @@ export const getOrderByUser = createAsyncThunk(
   }
 );
 
-export const createUsers = createAsyncThunk(
+export const createUser = createAsyncThunk(
   "auth/create-user",
   async (data, thunkAPI) => {
     try {
@@ -207,7 +207,6 @@ export const getAUser = createAsyncThunk(
   "auth/get-user",
   async (id, thunkAPI) => {
     try {
-      //console.log("sliced", id);
       return await authService.getUser(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -264,6 +263,30 @@ export const updateAUser = createAsyncThunk(
 
 export const resetState = createAction("Reset_all");
 
+export const getAllUsers = createAsyncThunk(
+  "auth/get-all-users",
+  async (thunkAPI) => {
+    try {
+      return await authService.getAllUsers();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "auth/delete-user",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.deleteUser(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
@@ -285,6 +308,21 @@ export const authSlice = createSlice({
       state.isSuccess = false;
       state.message = action.error;
       state.isLoading = false;
+    })
+    .addCase(deleteUser.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(deleteUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.deletedUser = action.payload;
+    })
+    .addCase(deleteUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
     })
     .addCase(loginQuickbooks.pending, (state) => {
       state.isLoading = true;
@@ -311,6 +349,8 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.user = action.payload;
         state.message = "success";
+        localStorage.setItem("user", JSON.stringify(action.payload));
+        localStorage.setItem("customer", JSON.stringify(action.payload));
       })
       .addCase(login.rejected, (state, action) => {
         state.isError = true;
@@ -508,16 +548,16 @@ export const authSlice = createSlice({
         state.message = action.error;
         state.isLoading = false;
       })
-      .addCase(createUsers.pending, (state) => {
+      .addCase(createUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createUsers.fulfilled, (state, action) => {
+      .addCase(createUser.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
         state.isSuccess = true;
         state.createdUser = action.payload;
       })
-      .addCase(createUsers.rejected, (state, action) => {
+      .addCase(createUser.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
@@ -613,7 +653,22 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
-
+      .addCase(getAllUsers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.users = action.payload;
+        state.message = "success";
+      })
+      .addCase(getAllUsers.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
       .addCase(resetState, () => initialState);
   },
 });

@@ -53,7 +53,7 @@ const privacyPolicy = () => {
           <span data-custom-class="body_text">
             This privacy notice for{" "}
             <bdt className="question">
-              Stone Nature llc
+              Pronitron
               <bdt className="block-component" />
             </bdt>{" "}
             (<bdt className="block-component" />"<strong>we</strong>," "

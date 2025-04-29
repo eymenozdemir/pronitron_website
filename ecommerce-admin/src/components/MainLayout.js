@@ -54,7 +54,7 @@ const MainLayout = () => {
            <Sidenav
               // color={sidenavColor}
               // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-              brandName="Stone Nature"
+              brandName="Pronitron"
               routes={() => routes(stockState)}
       
             />

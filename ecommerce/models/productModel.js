@@ -3,85 +3,64 @@ const mongoose = require("mongoose"); // Erase if already required
 // Declare the Schema of the Mongo model
 var productSchema = new mongoose.Schema(
   {
-    vendor: {
-      type: String,
-    },
-    SKU: {
-      type: String,
-    },
     title: {
       type: String,
       required: true,
       unique: true,
     },
-    price: {
-      type: Number,
-      default: 0,
+    itemID: {
+      type: String,
+      required: true,
+      unique: true,
     },
     category: {
       type: String,
+      required: true,
     },
-    subCategory: {
+    condition: {
       type: String,
     },
-    size: {
+    availability: {
       type: String,
     },
-    caseQuantity: {
-      type: Number,
-    },
-    caseUnit: {
+    manufacturer: {
       type: String,
-      default: "N/A",
     },
-    casePallet: {
-      type: Number,
-      default: 0,
+    requestQuote: {
+      type: String,
     },
-    stockNashville: {
-      type: Number,
-      default: 0
+    shipping: {
+      type: String,
     },
-    stockSavannah: {
-      type: Number,
-      default: 0
+    description: {
+      type: String,
     },
-    stockAtlanta: {
-      type: Number,
-      default: 0,
+    video: {
+      type: String,
     },
-    toNashville: {
-      type: Number,
-      default: 0
+    images: [
+    {
+        public_id: String,
+        url: String,
     },
-    toSavannah: {
-      type: Number,
-      default: 0
+    ],
+    downloadables: [
+    {
+        public_id: String,
+        url: String,
     },
-    toAtlanta: {
-      type: Number,
-      default: 0,
-    },
-    stockTr: {
-      type: Number,
-      default: 0,
-    },
-    stockTreshold: {
-      type: Number,
-      default: 1,
-    },
-    sold: {
-      type: Number,
-      default: 0,
-    },
-    saleFreq: {
-      type: Number,
-      default: 0,
-    },
-    lastSale: {
-      type: Date,
-      default: Date.now(),
-    }
+    ],
+    systemIncludes: [
+      {
+          description: String
+      },
+    ],
+    specifications: [
+      {
+        title: String,
+        description: String
+      },
+    ],
   },
   { timestamps: true }
 );

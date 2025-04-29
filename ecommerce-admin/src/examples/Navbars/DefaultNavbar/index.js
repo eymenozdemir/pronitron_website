@@ -104,7 +104,7 @@ function DefaultNavbar({ transparent, light, action }) {
       >
       
 
-            <div className="d-flex justify-content-between">Stone Nature System</div>
+            <div className="d-flex justify-content-between">Pronitron</div>
       
         
   

@@ -234,6 +234,7 @@ export const authSlice = createSlice({
         if (state.isSuccess === true) {
           //console.log("token mi", action.payload.token);
           localStorage.setItem("customer", JSON.stringify(action.payload));
+          localStorage.setItem("user", JSON.stringify(action.payload));
           toast.info("User Logged In Succesfully");
         }
       })
@@ -392,6 +393,7 @@ export const authSlice = createSlice({
             company: action?.payload?.company,
           }
           localStorage.setItem("customer", JSON.stringify(newUserData));
+          localStorage.setItem("user", JSON.stringify(newUserData));
           state.user = newUserData;
           toast.success("Profile Updated Successfully!");
         //}

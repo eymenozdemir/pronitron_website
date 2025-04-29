@@ -73,13 +73,13 @@ const Contact = () => {
                         </div>
                       </div>
                       <div>
-                        <input type="email" className="form-control" placeholder={t("EmailStar")} name='email' onChange={formik.handleChange("email")} onBlur={formik.handleBlur("email")} value={formik.values.email}/>
+                        <input type="email" className="form-control" placeholder={t("Email")} name='email' onChange={formik.handleChange("email")} onBlur={formik.handleBlur("email")} value={formik.values.email}/>
                         <div className="errors">
                           {formik.touched.email && formik.errors.email}
                         </div>
                       </div>
                       <div>
-                        <input type="tel" className="form-control" placeholder={t("MobileNumber")} name='mobile' onChange={formik.handleChange("mobile")} onBlur={formik.handleBlur("mobile")} value={formik.values.mobile}/>
+                        <input type="tel" className="form-control" placeholder={t("Mobile Number")} name='mobile' onChange={formik.handleChange("mobile")} onBlur={formik.handleBlur("mobile")} value={formik.values.mobile}/>
                         <div className="errors">
                           {formik.touched.mobile && formik.errors.mobile}
                         </div>
@@ -104,7 +104,7 @@ const Contact = () => {
                     <ul className="contact-info-list ps-0">
                       <li className='mb-3 d-flex gap-15 align-items-center'>
                         <AiFillHome className='fs-5' />
-                        <address className='mb-0'>Koşuyolu, İsmail Paşa Sk. No:33 34718 Kadıköy/İstanbul</address>
+                        <address className='mb-0'>Koşuyolu, İsmail Paşa Sk. No:33 2 P.K. 34718 Kadıköy/İstanbul</address>
                       </li>
                       <li className='mb-3 d-flex gap-15 align-items-center'>
                         <AiOutlineFieldTime className='fs-5' />
