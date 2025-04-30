@@ -40,7 +40,7 @@ const MainLayout = () => {
   useEffect(() => {
     dispatch(getProducts());
   }, []);
-  const stockState = useSelector((state) => state?.product?.products?.filter((p) => p?.stockTreshold >= (p?.stockAtlanta + p?.toAtlanta) || p?.stockTreshold >= (p?.stockNashville + p?.toNashville) || p?.stockTreshold >= (p?.stockSavannah + p?.toSavannah)));
+  //const stockState = useSelector((state) => state?.product?.products?.filter((p) => p?.stockTreshold >= (p?.stockAtlanta + p?.toAtlanta) || p?.stockTreshold >= (p?.stockNashville + p?.toNashville) || p?.stockTreshold >= (p?.stockSavannah + p?.toSavannah)));
   const location = useLocation();
 
   const currentTab = location.pathname.split("/")[2] ? location.pathname.split("/")[2] : "";
@@ -55,7 +55,8 @@ const MainLayout = () => {
               // color={sidenavColor}
               // brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName="Pronitron"
-              routes={() => routes(stockState)}
+              routes={() => routes()}
+              //routes={() => routes(stockState)}
       
             />
         {/* <div className="logo">

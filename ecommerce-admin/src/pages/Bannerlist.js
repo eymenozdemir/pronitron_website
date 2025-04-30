@@ -47,37 +47,39 @@ const Bannerlist = () => {
     dispatch(getAllBanners());
   }, [dispatch]);
 
-  const bannerState = useSelector((state) => state.banner.banners);
+  const bannerState = useSelector((state) => state?.banner?.banners);
   const data1 = [];
-  for (let i = 0; i < bannerState.length; i++) {
+  for (let i = 0; i < bannerState?.length; i++) {
     data1.push({
       key: i + 1,
-      title: bannerState[i].title,
-      description: bannerState[i].description,
-      image: (
+      title: bannerState[i]?.title,
+      description: bannerState[i]?.description,
+      image: bannerState[i]?.images && bannerState[i].images.length > 0 ? (
         <img
-          src={bannerState[i].images[0]?.url}
+          src={bannerState[i].images[0].url}
           alt="banner"
           style={{ width: "100px", height: "auto" }}
         />
+      ) : (
+        <span>No image available</span>
       ),
       action: (
         <>
           <Link
-            to={`/admin/banner/${bannerState[i]._id}`}
+            to={`/admin/banner/${bannerState[i]?.id}`}
             className="ms-3 fs-4 text-primary"
           >
             <BiShow />
           </Link>
           <Link
-            to={`/admin/add-banner/${bannerState[i]._id}`}
+            to={`/admin/add-banner/${bannerState[i]?.id}`}
             className="ms-3 fs-4 text-info"
           >
             <BiEdit />
           </Link>
           <button
             className="ms-3 fs-4 text-danger bg-transparent border-0"
-            onClick={() => showModal(bannerState[i]._id)}
+            onClick={() => showModal(bannerState[i]?.id)}
           >
             <AiFillDelete />
           </button>

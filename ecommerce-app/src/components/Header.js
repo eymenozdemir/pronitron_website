@@ -31,8 +31,8 @@ const Header = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 1223px)' });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const productState = useSelector(state => state?.product?.products);
-  const categoryState = useSelector(state => state?.pCategory?.pCategories);
+  const productState = useSelector(state => state?.product?.products) || [];
+  const categoryState = useSelector(state => state?.pCategory?.pCategories) || [];
   const tempState = useSelector(state => state);
   const [productOpt, setProductOpt] = useState([]);
   const [paginate, setPaginate] = useState(true);
@@ -179,20 +179,22 @@ const Header = () => {
                     {t("Products")}
                   </span>
                   <ul className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}>
-                    {categoryState?.map((category) => (
-                      <li key={category._id} className="dropdown-title">
-                        {category.title}
+                    {Array.isArray(categoryState) && categoryState.map((category) => (
+                      <li key={category?._id} className="dropdown-title">
+                        {category?.title}
                         <div className="submenu">
-                          {productState?.filter(product => product.category === category.title).map((product) => (
-                            <Link 
-                              key={product._id} 
-                              to={`/product/${product._id}`} 
-                              className="dropdown-item"
-                              onClick={() => handleProductClick(product._id)}
-                            >
-                              {product.title}
-                            </Link>
-                          ))}
+                          {Array.isArray(productState) && productState
+                            .filter(product => product?.category === category?.title)
+                            .map((product) => (
+                              <Link 
+                                key={product?._id} 
+                                to={`/product/${product?._id}`} 
+                                className="dropdown-item"
+                                onClick={() => handleProductClick(product?._id)}
+                              >
+                                {product?.title}
+                              </Link>
+                            ))}
                         </div>
                       </li>
                     ))}
@@ -259,15 +261,22 @@ const Header = () => {
                   {t("Products")}
                 </span>
                 <ul className="dropdown-menu">
-                  {categoryState?.map((category) => (
-                    <li key={category._id} className="dropdown-title">
-                      {category.title}
+                  {Array.isArray(categoryState) && categoryState.map((category) => (
+                    <li key={category?._id} className="dropdown-title">
+                      {category?.title}
                       <div className="submenu">
-                        {productState?.filter(product => product.category === category.title).map((product) => (
-                          <Link key={product._id} to={`/product/${product._id}`} className="dropdown-item">
-                            {product.title}
-                          </Link>
-                        ))}
+                        {Array.isArray(productState) && productState
+                          .filter(product => product?.category === category?.title)
+                          .map((product) => (
+                            <Link 
+                              key={product?._id} 
+                              to={`/product/${product?._id}`} 
+                              className="dropdown-item"
+                              onClick={() => handleProductClick(product?._id)}
+                            >
+                              {product?.title}
+                            </Link>
+                          ))}
                       </div>
                     </li>
                   ))}

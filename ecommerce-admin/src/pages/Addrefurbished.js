@@ -206,7 +206,7 @@ const Addrefurbished = () => {
 
   return (
     <div>
-      <h3 className="mb-4 title">{getProdId !== undefined ? "Edit" : "Add"} Product</h3>
+      <h3 className="mb-4 title">{getProdId !== undefined ? "Edit" : "Add"} Refurbished Product</h3>
       <div>
         <form onSubmit={formik.handleSubmit} className="d-flex gap-3 flex-column">
           <CustomInput
@@ -231,7 +231,7 @@ const Addrefurbished = () => {
               className="form-control py-3"
             >
               <option value="">Select Category</option>
-              {categoryState?.map((category, index) => (
+              {categoryState && Array.isArray(categoryState) && categoryState?.map((category, index) => (
                 <option key={index} value={category.title}>
                   {category.title}
                 </option>

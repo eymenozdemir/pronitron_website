@@ -72,10 +72,10 @@ const Home = () => {
     dispatch(getAllSolutions());
   }, []);
 
-  const productState = useSelector((state) => state?.product?.products);
-  const bannerState = useSelector((state) => state?.banner?.banners);
-  const newsState = useSelector((state) => state?.news?.news);
-  const solutionsState = useSelector((state) => state?.solutions?.solutions);
+  const productState = useSelector((state) => state?.product?.products) || [];
+  const bannerState = useSelector((state) => state?.banner?.banners) || [];
+  const newsState = useSelector((state) => state?.news?.news) || [];
+  const solutionsState = useSelector((state) => state?.solutions?.solutions) || [];
 
   const sliderSettings = {
     dots: false,
@@ -113,12 +113,12 @@ const Home = () => {
     <>
       <section className="hero-section">
         <Slider ref={sliderRef} {...sliderSettings}>
-          {bannerState?.map((banner, index) => (
+          {Array.isArray(bannerState) && bannerState.map((banner, index) => (
             <div key={index} className="hero-slide">
               <div className="hero-background">
                 <img 
-                  src={banner.images[0]?.url} 
-                  alt={banner.title.split('[trTranslation]')[langSelection]} 
+                  src={banner?.images?.[0]?.url} 
+                  alt={banner?.title?.split('[trTranslation]')[langSelection]} 
                   className="hero-image"
                   onError={(e) => {
                     e.target.onerror = null;
@@ -129,12 +129,12 @@ const Home = () => {
               <div className="hero-content-wrapper">
                 <div className="hero-content">
                   <h1 className="slide-title">
-                    {banner.title.split('[trTranslation]')[langSelection]}
+                    {banner?.title?.split('[trTranslation]')[langSelection]}
                   </h1>
-                  <p className="slide-description">{banner.description.split('[trTranslation]')[langSelection]}</p>
+                  <p className="slide-description">{banner?.description?.split('[trTranslation]')[langSelection]}</p>
                   <div className="cta-group">
                     <Link 
-                      to={banner.link} 
+                      to={banner?.link} 
                       className="cta-button primary"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -184,20 +184,20 @@ const Home = () => {
           </div>
           <div className="col-12">
             <div className={`row ${solutionsState?.length <= 4 ? 'justify-content-center' : ''}`}>
-              {solutionsState?.map((solution) => (
+              {Array.isArray(solutionsState) && solutionsState.map((solution) => (
                 <div 
-                  key={solution._id} 
+                  key={solution?._id} 
                   className={`${solutionsState?.length <= 4 ? 'col-md-3 px-4' : 'col-md-4'}`}
                 >
                   <div className="solution-card">
                     <img 
-                      src={solution.images[0]?.url || "/placeholder-image.jpg"} 
-                      alt={solution.title.split('[trTranslation]')[langSelection]} 
+                      src={solution?.images?.[0]?.url || "/placeholder-image.jpg"} 
+                      alt={solution?.title?.split('[trTranslation]')[langSelection]} 
                     />
                     <div className="solution-card-content">
-                      <h3>{solution.title.split('[trTranslation]')[langSelection]}</h3>
-                      <p>{solution.description.split('[trTranslation]')[langSelection]}</p>
-                      <Link to={`/solutions/${solution._id}`} className="learn-more">
+                      <h3>{solution?.title?.split('[trTranslation]')[langSelection]}</h3>
+                      <p>{solution?.description?.split('[trTranslation]')[langSelection]}</p>
+                      <Link to={`/solutions/${solution?._id}`} className="learn-more">
                         {t("Learn More")} →
                       </Link>
                     </div>
@@ -231,21 +231,21 @@ const Home = () => {
               </button>
             </div>
             <Slider ref={productSliderRef} {...productSliderSettings}>
-              {productState?.map((product, index) => (
+              {Array.isArray(productState) && productState.map((product, index) => (
                 <div key={index} className="product-slide">
                   <div className="product-card">
                     <img 
-                      src={product.images[0]?.url} 
-                      alt={product.title.split('[trTranslation]')[langSelection]} 
+                      src={product?.images?.[0]?.url} 
+                      alt={product?.title?.split('[trTranslation]')[langSelection]} 
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = pic1; // Fallback image
                       }}
                     />
                     <div className="product-card-content">
-                      <h3>{product.title.split('[trTranslation]')[langSelection]}</h3>
-                      <p>{product.description.split('[trTranslation]')[langSelection]}</p>
-                      <Link to={`/product/${product._id}`} className="learn-more">
+                      <h3>{product?.title?.split('[trTranslation]')[langSelection]}</h3>
+                      <p>{product?.description?.split('[trTranslation]')[langSelection]}</p>
+                      <Link to={`/product/${product?._id}`} className="learn-more">
                         {t("View Product")} →
                       </Link>
                     </div>
@@ -263,25 +263,25 @@ const Home = () => {
           <div className="col-12 text-center mb-4">
             <h2>{t("Latest News")}</h2>
           </div>
-          {newsState?.slice(-4)?.map((news) => (
-            <div key={news._id} className="col-md-3">
+          {Array.isArray(newsState) && newsState.slice(-4).map((news) => (
+            <div key={news?._id} className="col-md-3">
               <div className="news-card">
                 <div className="news-image">
                   <img 
-                    src={news.images[0]?.url} 
-                    alt={news.title.split('[trTranslation]')[langSelection]}
+                    src={news?.images?.[0]?.url} 
+                    alt={news?.title?.split('[trTranslation]')[langSelection]}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = pic1; // Fallback image
                     }}
                   />
-                  <div className="news-category">{news.category.split('[trTranslation]')[langSelection]}</div>
+                  <div className="news-category">{news?.category?.split('[trTranslation]')[langSelection]}</div>
                 </div>
                 <div className="news-content">
-                  <div className="news-date">{news.date}</div>
-                  <h3>{news.title.split('[trTranslation]')[langSelection]}</h3>
-                  <p>{news.description.split('[trTranslation]')[langSelection]}</p>
-                  <Link to={`/news/${news._id}`} className="read-more">
+                  <div className="news-date">{news?.date}</div>
+                  <h3>{news?.title?.split('[trTranslation]')[langSelection]}</h3>
+                  <p>{news?.description?.split('[trTranslation]')[langSelection]}</p>
+                  <Link to={`/news/${news?._id}`} className="read-more">
                     {t("Read More")} →
                   </Link>
                 </div>

@@ -2,33 +2,13 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import Resetpassword from "./pages/Resetpassword";
-import Forgotpassword from "./pages/Forgotpassword";
 import MainLayout from "./components/MainLayout";
-import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
 import Categorylist from "./pages/Categorylist";
-import Brandlist from "./pages/Brandlist";
 import Productlist from "./pages/Productlist";
 import Addcat from "./pages/Addcat";
-import Addbrand from "./pages/Addbrand";
 import Addproduct from "./pages/Addproduct";
-import ViewOrder from "./pages/ViewOrder";
-import ViewSale from "./pages/ViewSale";
-import Addorder from "./pages/Addorder";
-import Addsale from "./pages/Addsale";
 import Adduser from "./pages/Adduser";
-import Containeroptimization from "./pages/Containeroptimization";
-import Employees from "./pages/Employees";
-import Inventory from "./pages/Inventory";
-import Savannah from "./pages/Savannah";
-import Nashville from "./pages/Nashville";
-import Atlanta from "./pages/Atlanta";
-import Sales from "./pages/Sales";
-import Stockalert from "./pages/Stockalert";
-import Vendors from "./pages/Vendors";
-import userAgreement from "./pages/userAgreement";
-import privacyPolicy from "./pages/privacyPolicy";
 import { PrivateRoutes } from "./components/PrivateRoutes";
 
 // Import new components
@@ -108,27 +88,14 @@ function App() {
           <Route path="/admin" element={<PrivateRoutes><MainLayout /></PrivateRoutes>}>
             <Route index element={<PrivateRoutes><Dashboard /></PrivateRoutes>} />
             <Route path="dashboard" element={<PrivateRoutes><Dashboard /></PrivateRoutes>} />
-            <Route path="orders" element={<PrivateRoutes><Orders /></PrivateRoutes>} />
-            <Route path="add-order" element={<PrivateRoutes><Addorder /></PrivateRoutes>} />
-            <Route path="orders/:id" element={<PrivateRoutes><ViewOrder /></PrivateRoutes>} />
-            <Route path="sales/:id" element={<PrivateRoutes><ViewSale /></PrivateRoutes>} />
-            <Route path="vendors" element={<PrivateRoutes><Vendors /></PrivateRoutes>} />
-            <Route path="sales" element={<PrivateRoutes><Sales /></PrivateRoutes>} />
             <Route path="privacy-policy" element={<privacyPolicy />} />
             <Route path="user-agreement" element={<userAgreement />} />
-            <Route path="add-sale" element={<PrivateRoutes><Addsale /></PrivateRoutes>} />
             <Route path="list-customer" element={<PrivateRoutes><Customers /></PrivateRoutes>} />
             <Route path="add-user" element={<PrivateRoutes><Adduser /></PrivateRoutes>} />
             <Route path="add-user/:id" element={<PrivateRoutes><Adduser /></PrivateRoutes>} />
-            <Route path="list-employee" element={<PrivateRoutes><Employees /></PrivateRoutes>} />
             <Route path="list-category" element={<PrivateRoutes><Categorylist /></PrivateRoutes>} />
             <Route path="category" element={<PrivateRoutes><Addcat /></PrivateRoutes>} />
             <Route path="category/:id" element={<PrivateRoutes><Addcat /></PrivateRoutes>} />
-            <Route path="stock-alert" element={<PrivateRoutes><Stockalert /></PrivateRoutes>} />
-            <Route path="inventory" element={<PrivateRoutes><Inventory /></PrivateRoutes>} />
-            <Route path="savannah" element={<PrivateRoutes><Savannah /></PrivateRoutes>} />
-            <Route path="nashville" element={<PrivateRoutes><Nashville /></PrivateRoutes>} />
-            <Route path="atlanta" element={<PrivateRoutes><Atlanta /></PrivateRoutes>} />
             <Route path="products" element={<PrivateRoutes><Productlist /></PrivateRoutes>} />
             <Route path="add-product" element={<PrivateRoutes><Addproduct /></PrivateRoutes>} />
             <Route path="add-product/:id" element={<PrivateRoutes><Addproduct /></PrivateRoutes>} />

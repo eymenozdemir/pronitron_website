@@ -260,7 +260,7 @@ const Addproduct = () => {
               className="form-control py-3"
             >
               <option value="">Select Category</option>
-              {categoryState?.map((category, index) => (
+              {categoryState && Array.isArray(categoryState) && categoryState?.map((category, index) => (
                 <option key={index} value={category.title}>
                   {category.title}
                 </option>

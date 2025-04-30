@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.95bdae18.css",
-    "main.js": "/static/js/main.8e107c7a.js",
+    "main.js": "/static/js/main.570577bf.js",
     "static/media/pronitron_about.jpg": "/static/media/pronitron_about.a93f5bae85511cfad3a7.jpg",
     "static/media/sell_banner.jpg": "/static/media/sell_banner.ecd0cfde1d42b7aaf6f8.jpg",
     "static/media/buy_banner.jpg": "/static/media/buy_banner.4c899ee66caaf005b251.jpg",
@@ -27,10 +27,10 @@
     "static/media/add-cart.svg": "/static/media/add-cart.07089cca7ace32a4716dc122b1b11a68.svg",
     "static/media/wish-black.svg": "/static/media/wish-black.0028fb86b25f703a107bcd5c13d2acd9.svg",
     "main.95bdae18.css.map": "/static/css/main.95bdae18.css.map",
-    "main.8e107c7a.js.map": "/static/js/main.8e107c7a.js.map"
+    "main.570577bf.js.map": "/static/js/main.570577bf.js.map"
   },
   "entrypoints": [
     "static/css/main.95bdae18.css",
-    "static/js/main.8e107c7a.js"
+    "static/js/main.570577bf.js"
   ]
 }
