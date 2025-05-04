@@ -26,7 +26,7 @@ const createProduct = async (product) => {
       description: product.prodData.description,
       video: product.prodData.video,
       images: product.prodImg,
-      downloadables: product.prodDownloadables,
+      downloadables: product.prodData.downloadables,
       systemIncludes: product.prodData.systemIncludes,
       specifications: product.prodData.specifications,
     }, config);
@@ -58,7 +58,7 @@ const updateProduct = async (product) => {
       description: product.prodData.description,
       video: product.prodData.video,
       images: product.prodImg,
-      downloadables: product.prodDownloadables,
+      downloadables: product.prodData.downloadables,
       systemIncludes: product.prodData.systemIncludes,
       specifications: product.prodData.specifications,
     },

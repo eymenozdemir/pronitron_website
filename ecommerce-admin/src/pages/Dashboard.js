@@ -129,145 +129,145 @@ const Dashboard = () => {
   }
 
   return (
-    <MDBox py={3}>
+          <MDBox py={3}>
       {/* Logo Section */}
       <MDBox mb={4} display="flex" justifyContent="center">
         <img src={logo} style={{ marginBottom: "2rem" }} alt="Logo" width="320px" />
       </MDBox>
 
-      <Grid container spacing={3}>
+            <Grid container spacing={3}>
         {/* Statistics Cards */}
-        <Grid item xs={12} md={6} lg={3}>
-          <MDBox mb={1.5}>
-            <ComplexStatisticsCard
-              color="dark"
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                    color="dark"
               icon={<FaBox />}
               title="Total Products"
               count={totalProducts}
-            />
-          </MDBox>
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <MDBox mb={1.5}>
-            <ComplexStatisticsCard
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
               icon={<FaImages />}
               title="Total Banners"
               count={totalBanners}
-            />
-          </MDBox>
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <MDBox mb={1.5}>
-            <ComplexStatisticsCard
-              color="success"
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                    color="success"
               icon={<BiCategory />}
               title="Categories"
               count={totalCategories}
-            />
-          </MDBox>
-        </Grid>
-        <Grid item xs={12} md={6} lg={3}>
-          <MDBox mb={1.5}>
-            <ComplexStatisticsCard
-              color="primary"
+                  />
+                </MDBox>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <MDBox mb={1.5}>
+                  <ComplexStatisticsCard
+                    color="primary"
               icon={<FaNewspaper />}
               title="News & Solutions"
               count={totalNews + totalSolutions}
-            />
-          </MDBox>
-        </Grid>
+                    />
+                  </MDBox>
+                </Grid>
 
         {/* Products Table */}
-        <Grid item xs={12}>
-          <Card>
-            <MDBox
-              mx={2}
-              mt={-3}
+      <Grid item xs={12}>
+        <Card>
+          <MDBox
+            mx={2}
+            mt={-3}
               py={3}
-              px={2}
-              variant="gradient"
+            px={2}
+            variant="gradient"
               bgColor="dark"
-              borderRadius="lg"
+            borderRadius="lg"
               coloredShadow="dark"
-            >
-              <MDTypography variant="h6" color="white">
+          >
+            <MDTypography variant="h6" color="white">
                 Products
-              </MDTypography>
-            </MDBox>
+            </MDTypography>
+          </MDBox>
             <MDBox pt={4}>
-              <DataTable
+            <DataTable
                 table={{ columns: productColumns, rows: productData }}
                 isSorted={false}
-                entriesPerPage={true}
-                showTotalEntries={true}
-                noEndBorder
-                canSearch
-              />
-            </MDBox>
-          </Card>
-        </Grid>
+              entriesPerPage={true}
+              showTotalEntries={true}
+              noEndBorder
+              canSearch
+            />
+          </MDBox>
+        </Card>
+      </Grid>
 
         {/* Banners Table */}
-        <Grid item xs={12}>
+      <Grid item xs={12}>
           <MDBox mt={4}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
+        <Card>
+          <MDBox
+            mx={2}
+            mt={-3}
                 py={3}
-                px={2}
-                variant="gradient"
-                bgColor="info"
-                borderRadius="lg"
-                coloredShadow="info"
-              >
-                <MDTypography variant="h6" color="white">
+            px={2}
+            variant="gradient"
+            bgColor="info"
+            borderRadius="lg"
+            coloredShadow="info"
+          >
+            <MDTypography variant="h6" color="white">
                   Banners
-                </MDTypography>
-              </MDBox>
+            </MDTypography>
+          </MDBox>
               <MDBox pt={4}>
-                <DataTable
+            <DataTable
                   table={{ columns: bannerColumns, rows: bannerData }}
                   isSorted={false}
-                  entriesPerPage={true}
-                  showTotalEntries={true}
-                  noEndBorder
-                  canSearch
-                />
-              </MDBox>
-            </Card>
+              entriesPerPage={true}
+              showTotalEntries={true}
+              noEndBorder
+              canSearch
+            />
           </MDBox>
-        </Grid>
+        </Card>
+          </MDBox>
+      </Grid>
 
         {/* News Table */}
-        <Grid item xs={12}>
+      <Grid item xs={12}>
           <MDBox mt={4}>
-            <Card>
-              <MDBox
-                mx={2}
-                mt={-3}
+        <Card>
+          <MDBox
+            mx={2}
+            mt={-3}
                 py={3}
-                px={2}
-                variant="gradient"
+            px={2}
+            variant="gradient"
                 bgColor="success"
-                borderRadius="lg"
+            borderRadius="lg"
                 coloredShadow="success"
-              >
-                <MDTypography variant="h6" color="white">
+          >
+            <MDTypography variant="h6" color="white">
                   News
-                </MDTypography>
-              </MDBox>
+            </MDTypography>
+          </MDBox>
               <MDBox pt={4}>
-                <DataTable
+            <DataTable
                   table={{ columns: newsColumns, rows: newsData }}
                   isSorted={false}
-                  entriesPerPage={true}
-                  showTotalEntries={true}
-                  noEndBorder
-                  canSearch
-                />
-              </MDBox>
-            </Card>
+              entriesPerPage={true}
+              showTotalEntries={true}
+              noEndBorder
+              canSearch
+            />
+          </MDBox>
+        </Card>
           </MDBox>
         </Grid>
       </Grid>

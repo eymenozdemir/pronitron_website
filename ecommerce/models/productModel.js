@@ -44,12 +44,9 @@ var productSchema = new mongoose.Schema(
         url: String,
     },
     ],
-    downloadables: [
-    {
-        public_id: String,
-        url: String,
+    downloadables: {
+      type: String,
     },
-    ],
     systemIncludes: [
       {
           description: String

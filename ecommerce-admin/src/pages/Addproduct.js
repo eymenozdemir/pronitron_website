@@ -23,6 +23,7 @@ let schema = yup.object().shape({
   shipping: yup.string(),
   description: yup.string(),
   video: yup.string(),
+  downloadables: yup.string(),
 });
 
 const Addproduct = () => {
@@ -31,12 +32,10 @@ const Addproduct = () => {
   const location = useLocation();
   const getProdId = location.pathname.split("/")[3];
   const [images, setImages] = useState([]);
-  const [downloadables, setDownloadables] = useState([]);
   const [systemIncludes, setSystemIncludes] = useState([{ description: "" }]);
   const [specifications, setSpecifications] = useState([{ title: "", description: "" }]);
 
   const imgState = useSelector((state) => state?.upload?.images);
-  const downloadableState = useSelector((state) => state?.upload?.downloadables);
   const productState = useSelector((state) => state?.product);
   const categoryState = useSelector((state) => state?.pCategory?.pCategories);
   const { isSuccess, isError, isLoading, createdProduct, updatedProduct, productName } = productState;
@@ -52,6 +51,7 @@ const Addproduct = () => {
     shipping: "",
     description: "",
     video: "",
+    downloadables: "",
   });
 
   useEffect(() => {
@@ -76,6 +76,7 @@ const Addproduct = () => {
         shipping: productName.shipping || "",
         description: productName.description || "",
         video: productName.video || "",
+        downloadables: productName.downloadables || "",
       });
 
       // Set systemIncludes from product data
@@ -111,16 +112,11 @@ const Addproduct = () => {
 
   useEffect(() => {
     dispatch(loadImg(productName?.images));
-    dispatch(loadDownloadables(productName?.downloadables));
   }, [productName]);
 
   useEffect(() => {
     formik.values.images = imgState;
   }, [imgState]);
-
-  useEffect(() => {
-    formik.values.downloadables = downloadableState;
-  }, [downloadableState]);
 
   const handleImageUpload = (info) => {
     if (info.file.status === "done") {
@@ -156,56 +152,6 @@ const Addproduct = () => {
     }));
   };
 
-  const onDrop = async (acceptedFiles) => {
-    try {
-      console.log('Files received:', acceptedFiles);
-      
-      // Filter files by type
-      const validFiles = acceptedFiles.filter(file => {
-        const fileType = file.type;
-        console.log('File type:', fileType);
-        return (
-          fileType === 'application/pdf' ||
-          fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-          fileType === 'image/png' ||
-          fileType === 'image/jpeg' ||
-          fileType === 'image/jpg'
-        );
-      });
-
-      if (validFiles.length !== acceptedFiles.length) {
-        toast.error("Some files were rejected. Please only upload PDF, DOCX, or image files.");
-        return;
-      }
-
-      console.log('Valid files:', validFiles);
-
-      // Create FormData
-      const formData = new FormData();
-      validFiles.forEach(file => {
-        formData.append('downloadables', file);
-      });
-
-      // Log FormData contents
-      for (let pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
-
-      // Dispatch the upload action
-      const result = await dispatch(uploadDownloadables(validFiles));
-      console.log('Upload result:', result);
-      
-      if (result.error) {
-        toast.error("Upload failed. Please try again.");
-      } else {
-        toast.success("Files uploaded successfully!");
-      }
-    } catch (error) {
-      console.error('Upload error:', error);
-      toast.error("Upload failed. Please try again.");
-    }
-  };
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: formValues,
@@ -218,7 +164,6 @@ const Addproduct = () => {
           specifications: specifications,
         },
         prodImg: imgState,
-        prodDownloadables: downloadableState,
       };
 
       if (getProdId !== undefined) {
@@ -318,6 +263,14 @@ const Addproduct = () => {
             name="video"
             onChng={handleInputChange}
             val={formValues.video}
+          />
+
+            <CustomInput
+            type="text"
+            label="Enter Dowloadable file drive URL"
+            name="downloadables"
+            onChng={handleInputChange}
+            val={formValues.downloadables}
           />
           
           <div className="mb-3">
@@ -421,49 +374,6 @@ const Addproduct = () => {
                   <button
                     type="button"
                     onClick={() => dispatch(delImg({id:i.public_id, images:imgState}))}
-                    className="btn-close position-absolute"
-                    style={{ top: "10px", right: "10px" }}
-                  ></button>
-                  <img src={i.url} alt="" width={200} height={200} />
-                </div>
-              );
-            })}
-          </div>
-
-          <h5>Downloadables</h5>
-          <div className="bg-white border-1 p-5 text-center">
-            <Dropzone
-              onDrop={onDrop}
-              accept={{
-                'application/pdf': ['.pdf'],
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
-                'image/*': ['.png', '.jpg', '.jpeg']
-              }}
-              maxSize={10485760} // 10MB
-            >
-              {({ getRootProps, getInputProps, isDragActive }) => (
-                <section>
-                  <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''}`}>
-                    <input {...getInputProps()} />
-                    <p>
-                      Drag 'n' drop files here, or click <span style={{background:"#232f3e", color:"white"}}> &nbsp; here&nbsp; </span> &nbsp;to select files
-                    </p>
-                    <p className="text-muted small">
-                      Supported formats: PDF, DOCX, PNG, JPG (Max size: 10MB)
-                    </p>
-                  </div>
-                </section>
-              )}
-            </Dropzone>
-          </div>
-          <div className="showimages d-flex flex-wrap gap-3">
-            {downloadableState?.map((i, j) => {
-              return (
-                <div className=" position-relative" key={j}>
-                  <p>{i.url}</p>
-                  <button
-                    type="button"
-                    onClick={() => dispatch(delDownloadables({id:i.public_id, downloadables:downloadableState}))}
                     className="btn-close position-absolute"
                     style={{ top: "10px", right: "10px" }}
                   ></button>

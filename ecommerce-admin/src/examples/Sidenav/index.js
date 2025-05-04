@@ -14,6 +14,8 @@ Coded by www.creative-tim.com
 */
 
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "features/auth/authSlice";
 
 // react-router-dom components
 import { useLocation, NavLink } from "react-router-dom";
@@ -65,6 +67,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   }
 
   const closeSidenav = () => setMiniSidenav(dispatch, true);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("user");
+    localStorage.removeItem("customer");
+    localStorage.removeItem("fromLogin");
+    window.location.href = "/";
+  };
 
   useEffect(() => {
     // A function that sets the mini state of the sidenav.
@@ -234,12 +244,9 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       <List>{renderRoutes}</List>
 
       <MDBox p={2} mt="auto">
-        {/* Harmoni Technology */}
         <div>
           <MDButton
-            component="a"
-            href="/"
-            rel="noreferrer"
+            onClick={handleLogout}
             variant="gradient"
             color={sidenavColor}
             fullWidth

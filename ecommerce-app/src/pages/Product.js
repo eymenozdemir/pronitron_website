@@ -83,26 +83,46 @@ const Product = () => {
 
         return null;
     };
-/*
-    const handleDownload = async (file, fileName) => {
+
+    const handleDownload = async (fileUrl) => {
         try {
-            // Use the secure_url directly from Cloudinary
-            const fileUrl = file.url;
-            
-            // Create a temporary link and trigger download
-            const a = document.createElement('a');
-            a.href = fileUrl;
-            a.download = fileName;
-            a.target = '_blank';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            // Check if it's a Google Drive URL
+            if (fileUrl.includes('drive.google.com')) {
+                // Extract file ID from Google Drive URL
+                let fileId = '';
+                if (fileUrl.includes('/d/')) {
+                    fileId = fileUrl.split('/d/')[1].split('/')[0];
+                } else if (fileUrl.includes('id=')) {
+                    fileId = fileUrl.split('id=')[1].split('&')[0];
+                }
+
+                if (!fileId) {
+                    throw new Error('Invalid Google Drive URL');
+                }
+
+                // Create direct download URL
+                const directDownloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+                
+                // Create a temporary anchor element
+                const link = document.createElement('a');
+                link.href = directDownloadUrl;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                
+                // Add to document, click, and remove
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                // Handle non-Google Drive URLs
+                window.open(fileUrl, '_blank');
+            }
         } catch (error) {
-            console.error('Download error:', error);
-            toast.error('Download failed. Please try again.');
+            console.error('Download failed:', error);
+            // You might want to show an error message to the user here
         }
     };
-*/
+
 
     return (
         <>
@@ -231,30 +251,22 @@ const Product = () => {
                                     ))}
                                 </ul>
                             </div>
-{/*
+
                             {productState?.downloadables && productState.downloadables.length > 0 && (
                                 <div className="downloadables-section mt-5">
                                     <h2 className="section-heading">{t("Download Documents")}</h2>
                                     <div className="download-buttons">
-                                        {productState.downloadables.map((file, index) => {
-                                            const fileExtension = file.url.split('.').pop().toLowerCase();
-                                            let fileName = `document_${index + 1}.${fileExtension}`;
-                                            
-                                            return (
-                                                <button
-                                                    key={index}
-                                                    className="download-btn"
-                                                    onClick={() => handleDownload(file, fileName)}
-                                                >
-                                                    <i className="fas fa-download me-2"></i>
-                                                    {t("Document")} {index + 1}
-                                                </button>
-                                            );
-                                        })}
+                                        <button
+                                            className="download-btn"
+                                            onClick={() => handleDownload(productState.downloadables)}
+                                            >
+                                                <i className="fas fa-download me-2"></i>
+                                                {t("Download Documents")} 
+                                            </button>
                                     </div>
                                 </div>
                             )}
-*/}
+
                         </div>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ import { FaBars } from 'react-icons/fa';
 
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isDesktop = useMediaQuery({ query: '(min-width: 1224px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 1223px)' });
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const Header = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language); // i18n.language contains the language assigned to lng in i18n.js file.
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  console.log(categoryState);
+  const langSelection = i18n.language === 'en' ? 0 : 1; // 0 for English, 1 for other languages
 
   useEffect(() => {
     dispatch(getCategories());
@@ -181,7 +181,7 @@ const Header = () => {
                   <ul className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}>
                     {Array.isArray(categoryState) && categoryState.map((category) => (
                       <li key={category?._id} className="dropdown-title">
-                        {category?.title}
+                        {category?.title?.split('[trTranslation]')[langSelection]} 
                         <div className="submenu">
                           {Array.isArray(productState) && productState
                             .filter(product => product?.category === category?.title)
@@ -192,7 +192,7 @@ const Header = () => {
                                 className="dropdown-item"
                                 onClick={() => handleProductClick(product?._id)}
                               >
-                                {product?.title}
+                                {product?.title?.split('[trTranslation]')[langSelection]}
                               </Link>
                             ))}
                         </div>
@@ -263,7 +263,7 @@ const Header = () => {
                 <ul className="dropdown-menu">
                   {Array.isArray(categoryState) && categoryState.map((category) => (
                     <li key={category?._id} className="dropdown-title">
-                      {category?.title}
+                      {category?.title?.split('[trTranslation]')[langSelection]}
                       <div className="submenu">
                         {Array.isArray(productState) && productState
                           .filter(product => product?.category === category?.title)
@@ -274,7 +274,7 @@ const Header = () => {
                               className="dropdown-item"
                               onClick={() => handleProductClick(product?._id)}
                             >
-                              {product?.title}
+                              {product?.title?.split('[trTranslation]')[langSelection]}
                             </Link>
                           ))}
                       </div>

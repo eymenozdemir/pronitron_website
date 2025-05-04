@@ -192,7 +192,14 @@ export const deleteUser = async (id) => {
   }
 };
 
-
+export const logout = async () => {
+  try {
+    const response = await axios.post(`${base_url}user/logout`, {}, config);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: 'An error occurred' };
+  }
+};
 
 export default {
   login,
@@ -215,5 +222,6 @@ export default {
   getUser,
   updateUser,
   getAllUsers,
-  deleteUser
+  deleteUser,
+  logout
 }; 
