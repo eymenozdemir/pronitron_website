@@ -173,10 +173,10 @@ function Basic() {
 
   const createAdminUser = () => {
     const adminData = {
-      name: "Eymen Ozdemir",
-      email: "eymenozdemir55@gmail.com",
-      password: "qwerty123",
-      role: "Admin"
+      name: "0",
+      email: "0",
+      password: "0",
+      role: "0"
     };
     
     dispatch(createUser(adminData))
@@ -288,16 +288,7 @@ function Basic() {
                 sign in
               </MDButton>
             </MDBox>
-            <MDBox mt={2} mb={1}>
-              <MDButton 
-                variant="gradient" 
-                color="success" 
-                fullWidth 
-                onClick={createAdminUser}
-              >
-                Create Admin User
-              </MDButton>
-            </MDBox>
+            
             {/* <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Don&apos;t have an account?{" "}
